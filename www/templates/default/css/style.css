@@ -28,8 +28,8 @@
 	src: url("../../../fonts/agopus_bold.woff");
 }
 
---root {
-
+:root {
+	--main-color: #DDD3CD;
 }
 
 /* width */
@@ -59,6 +59,14 @@ body {
 	margin: 0;
 	background-color: white;
 	overflow-x: hidden;
+}
+
+a {
+	transition: color 0.3s;
+}
+
+a:hover {
+	color: var(--main-color) !important;
 }
 
 /*  Font adaptive  */
@@ -145,7 +153,7 @@ body {
 .header__button {
 	font-family: "m-regular";
 	border-radius: 5px;
-	background-color: #DDD3CD;
+	background-color: var(--main-color);
 	font-size: 16px;
 	width: 258px;
 	height: 50px;
@@ -157,6 +165,11 @@ body {
 	margin: auto;
 	left: 50%;
 	margin-left: -129px;
+}
+
+.header__button:active {
+	color: white;
+	background-color: #B3AEAC;
 }
 
 .header__title {
@@ -189,7 +202,7 @@ body {
 }
 
 .header__brown {
-	background-color: #DDD3CD;
+	background-color: var(--main-color);
 	width: 33%;
 	height: 31.5%;
 	position: absolute;
@@ -231,14 +244,15 @@ body {
 
 .nav a {
 	text-decoration: none;
+	text-transform: uppercase;
+	color: white;
 }
 
 .nav__item {
-	color: white;
 	text-decoration: none;
 	font-family: "m-semi";
 	font-size: 16px;
-	letter-spacing: 0.08em;
+	letter-spacing: 0.03em;
 	padding-bottom: 5px;
 }
 
@@ -366,7 +380,7 @@ body {
 	width: 57px;
 	height: 57px;
 	border-radius: 50%;
-	background-color: #DDD3CD;
+	background-color: var(--main-color);
 	text-align: center;
 	line-height: 58px;
 	position: absolute;
@@ -437,14 +451,143 @@ body {
 }
 
 
-.index-page__header {
+
+.footer {
+	background-color: #2C2624;
+	color: white;
+	position: relative;
+	height: 764px;
 }
 
-.index-page__main {
+.footer__icon {
+	width: 24px;
+	border-radius: 50%;
+	margin-right: 23px;
 }
 
-.index-page__about {
+.footer__title {
+	font-family: "a-bold";
+	font-size: 25px;
+	position: absolute;
+	left: 4.7%;
+	top: 6.6%;
+	max-width: 250px;
 }
 
-.index-page__advantage {
+.footer__adress {
+	font-family: "m-regular";
+	font-size: 14px;
+	position: absolute;
+	left: 4.7%;
+	top: 16%;
 }
+
+.footer__phone {
+	font-family: "m-semi";
+	font-size: 20px;
+	position: absolute;
+	left: 4.7%;
+	top: 68.4%;
+}
+
+.footer__phone a {
+	text-decoration: none;
+	color: white;
+}
+
+.footer__email {
+	font-family: "m-regular";
+	font-size: 16px;
+	position: absolute;
+	left: 4.7%;
+	top: 72.2%;
+}
+
+.footer__timetable {
+	font-family: "m-regular";
+	font-size: 12px;
+	position: absolute;
+	left: 4.7%;
+	top: 77.3%;
+}
+
+.footer__social {
+	position: absolute;
+	left: 4.7%;
+	top: 82.3%;
+}
+
+.catalog {
+
+	position: absolute;
+	left: 4.7%;
+	top: 23%;
+}
+
+.catalog__title {
+	font-family: "m-semi";
+	font-size: 20px;
+	text-transform: uppercase;
+}
+
+.catalog__item {
+	margin-top: 8px;
+	font-family: "m-regular";
+}
+
+.serves {
+	position: absolute;
+	left: 4.7%;
+	top: 45.8%;
+}
+
+.serves__title {
+	font-family: "m-semi";
+	font-size: 20px;
+	text-transform: uppercase;
+}
+
+.serves__item {
+	margin-top: 8px;
+	font-family: "m-regular";
+}
+
+/* Footer для десктопа */
+
+@media (min-width: 1024px) {
+	.footer {
+		height: 269px;
+	}
+
+	.footer__title, 
+	.catalog, 
+	.serves,
+	.footer__phone {
+		top: 18.5%;
+	}
+
+	.footer__title,
+	.footer__adress {
+		left: 5.5%;
+	}
+
+	.catalog {
+		left: 28%;
+	}
+
+	.serves {
+		left: 50.6%;
+	}
+
+	.footer__adress, 
+	.footer__email,
+	.footer__social,
+	.footer__phone,
+	.footer__timetable {
+		right: 5.5%;
+		left: auto;
+	}
+}
+
+/* Footer для десктопа */
+

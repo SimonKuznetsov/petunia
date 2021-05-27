@@ -5,7 +5,7 @@
 
 
    // Подключаем модели
-   //include_once '../models/CategoriesModel.php';
+   include_once '../models/CategoriesModel.php';
    //include_once '../models/ProductsModel.php';
 
    function testAction() {
@@ -32,9 +32,12 @@
 
       $rsCategories = getAllMainCatsWithChildren();*/
 
+		$rsMainCategories = getAllMainCategories();
+		
       $smarty->assign('pageTitle', 'Главная страница сайта');
       //$smarty->assign('rsCategories', $rsCategories);
       //$smarty->assign('rsProducts', $rsProducts);
+		$smarty->assign('rsMainCategories', $rsMainCategories);
       
       loadTemplate($smarty, 'header');
       loadTemplate($smarty, 'index');

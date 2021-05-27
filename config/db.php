@@ -3,15 +3,25 @@
    *  Инициализация подключения к БД
    */
 
-	$host = '192.168.1.141';
-	$db   = 'petunia';
-	$user = 'semen';
-	$pass = '268123';
-	$charset = 'utf8';
 
-	$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+   $dblocation = "192.168.1.141";
+   $dbname = "petunia";
+   $dbuser = "semen";
+   $dbpasswd = "268123";
 
+   // Соединяемся с базой данных
+   $db = mysqli_connect($dblocation, $dbuser, $dbpasswd);
 
-	$pdo = new PDO($dsn, $user, $pass);
+   if (! $db) {
+      echo "Ошибка доступа к MySql";
+      exit();
+   }
 
+   // Устанавливаем кодировку по умолчанию для текущего соединения
+   mysqli_set_charset($db, 'utf8');
+
+   if (! mysqli_select_db($db, $dbname)) {
+      echo "Ошибка доступа к базе данных: ($dbname)";
+      exit();
+   }
 ?>
