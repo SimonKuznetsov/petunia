@@ -6,7 +6,7 @@
 
    // Подключаем модели
    include_once '../models/CategoriesModel.php';
-   //include_once '../models/ProductsModel.php';
+   include_once '../models/ProductsModel.php';
 
    function testAction() {
       echo 'IndexController.php > testAction';
@@ -28,17 +28,19 @@
       list($rsProducts, $allCnt) = getLastProducts($paginator['offset'], $paginator['perPage']);
 
       $paginator['pageCnt'] = ceil($allCnt / $paginator['perPage']);
-      $smarty->assign('paginator', $paginator);
+      $smarty->assign('paginator', $paginator);*/
 
-      $rsCategories = getAllMainCatsWithChildren();*/
+      $rsCategories = getAllMainCatsWithChildren();
 
 		$rsMainCategories = getAllMainCategories();
+		$rsBestOfferProducts = getBestOfferProducts();
 		
       $smarty->assign('pageTitle', 'Главная страница сайта');
-      //$smarty->assign('rsCategories', $rsCategories);
+      $smarty->assign('rsCategories', $rsCategories);
       //$smarty->assign('rsProducts', $rsProducts);
 		$smarty->assign('rsMainCategories', $rsMainCategories);
-      
+      $smarty->assign('rsBestOfferProducts', $rsBestOfferProducts);
+
       loadTemplate($smarty, 'header');
       loadTemplate($smarty, 'index');
       loadTemplate($smarty, 'footer');

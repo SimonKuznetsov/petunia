@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.6, created on 2021-05-27 20:28:03
+<?php /* Smarty version Smarty-3.1.6, created on 2021-09-14 15:34:05
          compiled from "../views/default\footer.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:6748578085f99a9170672e5-51374682%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '8459a55436fc0b425e3be591d05c24f490710049' => 
     array (
       0 => '../views/default\\footer.tpl',
-      1 => 1622136386,
+      1 => 1631622844,
       2 => 'file',
     ),
   ),
@@ -24,7 +24,27 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_5f99a91706c49')) {function content_5f99a91706c49($_smarty_tpl) {?><div class="footer">
+<?php if ($_valid && !is_callable('content_5f99a91706c49')) {function content_5f99a91706c49($_smarty_tpl) {?><div class="index-page__advantage advantage">
+	<div class="advantage__item">
+		<img class="advantage__img" src="/petunia/www/images/ground-icon.png">
+		<div class="advantage__text">Выращиваем только самые лучшие побеги</div>
+
+	</div>
+
+	<div class="advantage__item">
+		<img class="advantage__img" src="/petunia/www/images/delivery-icon.png">
+		<div class="advantage__text">Бережно и быстро доставим заказ в ваш дом</div>
+
+	</div>
+
+	<div class="advantage__item">
+		<img class="advantage__img" src="/petunia/www/images/plant-icon.png">
+		<div class="advantage__text">Наша служба поддержки всегда поможет</div>
+
+	</div>
+</div>
+
+<div class="footer" id="footer">
 	<div class="footer__title">Продажа и доставка соротовых петуний</div>
 	<div class="footer__adress">Королёв, Лесная д. 3</div>
 

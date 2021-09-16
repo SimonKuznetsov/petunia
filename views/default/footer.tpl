@@ -1,4 +1,24 @@
-<div class="footer">
+<div class="index-page__advantage advantage">
+	<div class="advantage__item">
+		<img class="advantage__img" src="/petunia/www/images/ground-icon.png">
+		<div class="advantage__text">Выращиваем только самые лучшие побеги</div>
+
+	</div>
+
+	<div class="advantage__item">
+		<img class="advantage__img" src="/petunia/www/images/delivery-icon.png">
+		<div class="advantage__text">Бережно и быстро доставим заказ в ваш дом</div>
+
+	</div>
+
+	<div class="advantage__item">
+		<img class="advantage__img" src="/petunia/www/images/plant-icon.png">
+		<div class="advantage__text">Наша служба поддержки всегда поможет</div>
+
+	</div>
+</div>
+
+<div class="footer" id="footer">
 	<div class="footer__title">Продажа и доставка соротовых петуний</div>
 	<div class="footer__adress">Королёв, Лесная д. 3</div>
 

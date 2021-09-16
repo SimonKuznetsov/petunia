@@ -10,13 +10,13 @@
 			<div class="header__white"></div>
 
 			<div class="header__nav nav">
-				<a href="#catalog">
+				<a>
 					<div class="nav__item">каталог</div>
 				</a>
 				<a href="#about">
 					<div class="nav__item">о нас</div>
 				</a>
-				<a href="#contacts">
+				<a href="#footer">
 					<div class="nav__item">контакты</div>
 				</a>
 			</div>
@@ -29,10 +29,78 @@
 		</div>
 	</div>
 
+
+
+
 	<div class="index-page__main main">
+
+		<div class="main__title">Лучшие предложения</div>
+
+		<div class="main__menu menu">
+			{foreach $rsCategories as $item name=catalog}
+			<div class="menu__item">
+				<div class="menu__title">{$item['name']}</div>
+				{if isset($item['children'])}
+				{foreach $item['children'] as $itemChild}
+				<div class="menu__child">{$itemChild['name']}</div>
+				{/foreach}
+				{/if}
+			</div>
+			{/foreach}
+		</div>
+
+		<div class="main__products">
+
+			{foreach $rsBestOfferProducts as $item name=products}
+
+			<div class="main__product product">
+				<img src="/petunia/www/images/products/1.png" alt="" class="product__img">
+
+				<div class="product__description">
+					<a href="/petunia/www/?controller=product&id={$item['id']}/">
+						<div class="product__title">{$item['name']}</div>
+					</a>
+
+					<div class="product__desc">{$item['description']}</div>
+
+					<div class="product__price">{$item['price']} руб.</div>
+
+					<div class="product__size">
+						размер:
+						<select class="product__select">
+							<option value="s">s</option>
+							<option value="m">m</option>
+							<option value="l">l</option>
+						</select>
+					</div>
+
+					<a href="" class="product__cart">
+						<div class="product__button">В корзину</div>
+					</a>
+
+					<div class="product__love">
+						<img src="/petunia/www/images/empty_hurt-icon.png" alt="">
+						<img src="/petunia/www/images/full_hurt-icon.png" alt="">
+					</div>
+
+					<div class="product__sum">
+						<div class="product__minus">-</div>
+						<div class="product__number">1</div>
+						<div class="product__plus">+</div>
+					</div>
+				</div>
+			</div>
+
+			{/foreach}
+
+		</div>
 
 	</div>
 
+
+
+
+	<div id="about" style="height: 137px;"></div>
 	<div class="index-page__about about">
 		<img class="about__img" src="/petunia/www/images/about.png" alt="">
 		<div class="about__wrapper">
@@ -82,24 +150,17 @@
 		</div>
 	</div>
 
-	<div class="index-page__advantage advantage">
-		<div class="advantage__item">
-			<img class="advantage__img" src="/petunia/www/images/ground-icon.png">
-			<div class="advantage__text">Выращиваем только самые лучшие побеги</div>
 
-		</div>
-
-		<div class="advantage__item">
-			<img class="advantage__img" src="/petunia/www/images/delivery-icon.png">
-			<div class="advantage__text">Бережно и быстро доставим заказ в ваш дом</div>
-
-		</div>
-
-		<div class="advantage__item">
-			<img class="advantage__img" src="/petunia/www/images/plant-icon.png">
-			<div class="advantage__text">Наша служба поддержки всегда поможет</div>
-
-		</div>
-	</div>
 
 </div>
+
+<script>
+	$(".small-header").addClass('move');
+
+	$(window).scroll(function () {
+		var top = $(document).scrollTop();
+		var windowHeight = $(window).height();
+		if (top < windowHeight - 49) $(".small-header").removeClass('fixed');
+		else $(".small-header").addClass('fixed');
+	});
+</script>

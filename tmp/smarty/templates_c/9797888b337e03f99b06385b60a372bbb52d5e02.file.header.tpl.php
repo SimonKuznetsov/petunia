@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.6, created on 2021-05-26 14:24:48
+<?php /* Smarty version Smarty-3.1.6, created on 2021-09-14 16:53:46
          compiled from "../views/default\header.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:2475568085f99a916e1adb9-49004720%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '9797888b337e03f99b06385b60a372bbb52d5e02' => 
     array (
       0 => '../views/default\\header.tpl',
-      1 => 1622028003,
+      1 => 1631627624,
       2 => 'file',
     ),
   ),
@@ -33,6 +33,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?php echo $_smarty_tpl->tpl_vars['pageTitle']->value;?>
 </title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<link rel="stylesheet" href="<?php echo $_smarty_tpl->tpl_vars['teplateWebPath']->value;?>
 css/style.css">
 	<link rel="icon" href="/petunia/www/images/icon.png">
@@ -75,5 +76,23 @@ css/style.css">
 
 		</div>
 
+		<div class="line__mobil close">
+			<div class="line__item">Каталог</div>
+			<div class="line__item">О нас</div>
+			<div class="line__item">Доставка</div>
+			<div class="line__item">Оплата</div>
+			<div class="line__item">Контакты</div>
+		</div>
 
+
+	</div>
+
+	<div class="small-header">
+		<div class="small-header__catalog">каталог ▼</div>
+		<a href="#about">
+			<div class="small-header__about">о нас</div>
+		</a>
+		<a href="#footer">
+			<div class="small-header__contacts">контакты</div>
+		</a>
 	</div><?php }} ?>

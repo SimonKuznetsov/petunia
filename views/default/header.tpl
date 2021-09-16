@@ -6,6 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>{$pageTitle}</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<link rel="stylesheet" href="{$teplateWebPath}css/style.css">
 	<link rel="icon" href="/petunia/www/images/icon.png">
 </head>
@@ -47,5 +48,23 @@
 
 		</div>
 
+		<div class="line__mobil close">
+			<div class="line__item">Каталог</div>
+			<div class="line__item">О нас</div>
+			<div class="line__item">Доставка</div>
+			<div class="line__item">Оплата</div>
+			<div class="line__item">Контакты</div>
+		</div>
 
+
+	</div>
+
+	<div class="small-header">
+		<div class="small-header__catalog">каталог ▼</div>
+		<a href="#about">
+			<div class="small-header__about">о нас</div>
+		</a>
+		<a href="#footer">
+			<div class="small-header__contacts">контакты</div>
+		</a>
 	</div>
