@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.6, created on 2021-09-14 17:04:35
+<?php /* Smarty version Smarty-3.1.6, created on 2021-09-18 14:56:46
          compiled from "../views/default\product.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:5719897655f9c34b707f236-49613022%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'c5df48fe23d6db1928059ffcf8dc8290e0a3146e' => 
     array (
       0 => '../views/default\\product.tpl',
-      1 => 1631628273,
+      1 => 1631966199,
       2 => 'file',
     ),
   ),
@@ -27,21 +27,40 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 	<div class="product-item__back" onclick="window.history.back();">← Вернуться к покупкам</div>
 
 
-	<div class="product-item__images"></div>
 	<div class="product-item__slider">
-		<img src="/petunia/www/images/products/1.png" alt="">
+		<div class="product-item__wrapper">
+			<img class="product-item__image a a1 on" src="/petunia/www/images/products/<?php echo $_smarty_tpl->tpl_vars['rsProduct']->value['id'];?>
+_1.png" alt="no">
+			<img class="product-item__image b b1" src="/petunia/www/images/products/<?php echo $_smarty_tpl->tpl_vars['rsProduct']->value['id'];?>
+_2.png" alt="no">
+			<img class="product-item__image c c1" src="/petunia/www/images/products/<?php echo $_smarty_tpl->tpl_vars['rsProduct']->value['id'];?>
+_3.png" alt="no">
+			<img class="product-item__image d d1" src="/petunia/www/images/products/<?php echo $_smarty_tpl->tpl_vars['rsProduct']->value['id'];?>
+_4.png" alt="no">
+			<img class="product-item__image e e1" src="/petunia/www/images/products/<?php echo $_smarty_tpl->tpl_vars['rsProduct']->value['id'];?>
+_5.png" alt="no">
+			<div class="product-item__left"><img src="/petunia/www/images/left-icon.png" alt=""></div>
+			<div class="product-item__right"><img src="/petunia/www/images/right-icon.png" alt=""></div>
+			<div class="product-item__dots">
+				<div class="aa"></div>
+				<div class="bb"></div>
+				<div class="cc"></div>
+				<div class="dd"></div>
+				<div class="ee"></div>
+			</div>
+		</div>
 	</div>
 
 	<div class="product-item__description">
 		<div class="product-item__name"><?php echo $_smarty_tpl->tpl_vars['rsProduct']->value['name'];?>
 </div>
 		<div class="product-item__desc"><?php echo $_smarty_tpl->tpl_vars['rsProduct']->value['fullDesc'];?>
-</div>
-		<div class="product-item__color">Цвет: <?php echo $_smarty_tpl->tpl_vars['rsProduct']->value['color'];?>
-</div>
-	</div>
 
-	<div class="product-item__tools">
+			<div class="product-item__color"><span>Цвет:</span> <?php echo $_smarty_tpl->tpl_vars['rsProduct']->value['color'];?>
+</div>
+		</div>
+
+
 		<div class="product-item__price"><?php echo $_smarty_tpl->tpl_vars['rsProduct']->value['price'];?>
  руб.</div>
 

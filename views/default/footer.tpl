@@ -55,7 +55,8 @@
 	</div>
 </div>
 
-<script src="/petunia/www/templates/default/js/script.js"></script>
+<script src="/petunia/www/js/script.js"></script>
+<script src="/petunia/www/js/phonemask.js"></script>
 
 </body>
 

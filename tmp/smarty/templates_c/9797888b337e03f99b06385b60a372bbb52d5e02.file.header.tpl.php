@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.6, created on 2021-09-14 16:53:46
+<?php /* Smarty version Smarty-3.1.6, created on 2021-10-12 07:03:30
          compiled from "../views/default\header.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:2475568085f99a916e1adb9-49004720%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '9797888b337e03f99b06385b60a372bbb52d5e02' => 
     array (
       0 => '../views/default\\header.tpl',
-      1 => 1631627624,
+      1 => 1634011407,
       2 => 'file',
     ),
   ),
@@ -21,6 +21,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   array (
     'pageTitle' => 0,
     'teplateWebPath' => 0,
+    'cartCntItems' => 0,
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
@@ -39,7 +40,7 @@ css/style.css">
 	<link rel="icon" href="/petunia/www/images/icon.png">
 </head>
 
-<body>
+<body onload="conversionPrice(1);">
 
 	<div class="index-page__line line">
 
@@ -70,8 +71,12 @@ css/style.css">
 				<img src="/petunia/www/images/user-icon.png" alt="">
 			</a>
 
-			<a href="/petunia/www/?controller=cart">
+			<a class="line__cart" href="/petunia/www/?controller=cart">
 				<img src="/petunia/www/images/cart-icon.png" alt="">
+				<span id="cartCntItems" class="line__count <?php if ($_smarty_tpl->tpl_vars['cartCntItems']->value==0){?>none<?php }?>">
+					<?php if ($_smarty_tpl->tpl_vars['cartCntItems']->value>0){?><?php echo $_smarty_tpl->tpl_vars['cartCntItems']->value;?>
+<?php }else{ ?>0<?php }?>
+				</span>
 			</a>
 
 		</div>

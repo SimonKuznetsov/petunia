@@ -12,6 +12,8 @@
       echo 'IndexController.php > testAction';
    }
 
+
+
    /* 
    *  Формирование главной страницы сайта
    * 
@@ -34,12 +36,15 @@
 
 		$rsMainCategories = getAllMainCategories();
 		$rsBestOfferProducts = getBestOfferProducts();
+
+		$cart = $_SESSION['cart'];
 		
       $smarty->assign('pageTitle', 'Главная страница сайта');
       $smarty->assign('rsCategories', $rsCategories);
       //$smarty->assign('rsProducts', $rsProducts);
 		$smarty->assign('rsMainCategories', $rsMainCategories);
       $smarty->assign('rsBestOfferProducts', $rsBestOfferProducts);
+		$smarty->assign('cart', $cart);
 
       loadTemplate($smarty, 'header');
       loadTemplate($smarty, 'index');

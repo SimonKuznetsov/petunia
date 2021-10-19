@@ -29,14 +29,14 @@
    *  @return array массив дочерних категорий
    */
   function getChildrenForCat($catId) {
-	global $db;
+		global $db;
 
-	$sql = "SELECT * FROM `categories` WHERE `parent_id` = '{$catId}' and `status` = 1";
-	
-	$rs = mysqli_query($db, $sql);
-	
-	return createSmartyRsArray($rs);
-}
+		$sql = "SELECT * FROM `categories` WHERE `parent_id` = '{$catId}' and `status` = 1";
+
+		$rs = mysqli_query($db, $sql);
+
+		return createSmartyRsArray($rs);
+	}
 
 	/*
 	*

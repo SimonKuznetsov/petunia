@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.6, created on 2021-02-12 11:51:45
+<?php /* Smarty version Smarty-3.1.6, created on 2021-10-17 17:49:12
          compiled from "../views/default\order.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:10499459455fb65cf1d895a9-49863916%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '666b6bc8023c125a090718b73de3d72f4408aabe' => 
     array (
       0 => '../views/default\\order.tpl',
-      1 => 1613119902,
+      1 => 1634482135,
       2 => 'file',
     ),
   ),
@@ -22,194 +22,123 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'rsProducts' => 0,
     'item' => 0,
     'sum' => 0,
-    'arUser' => 0,
-    'buttonClass' => 0,
-    'name' => 0,
-    'phone' => 0,
-    'adress' => 0,
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_5fb65cf1df529')) {function content_5fb65cf1df529($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_5fb65cf1df529')) {function content_5fb65cf1df529($_smarty_tpl) {?><div class="ordering">
 
-<h2 class="main-title">Данные заказа</h2>
-<form id="frmOrder" action="/php%20shop/www/?controller=cart&action=saveorder" method="POST">
-   <div class="table__body" id="orderTable">
-      <table class="table__table">
-         <tr class="table__header">
-            <td>№</td>
-            <td>Наименование</td>
-            <td>Количество</td>
-            <td>Цена за еденицу</td>
-            <td>Стоимость</td>
-         </tr>
+	<div class="cart__back" onclick="window.history.back();">← Вернуться в корзину</div>
 
-         <?php  $_smarty_tpl->tpl_vars['item'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['item']->_loop = false;
+	<div class="cart__title">Оформление заказа</div>
+
+	<div class="cart__hr" id="cartHr"></div>
+	<div class="cart__items">
+		<?php  $_smarty_tpl->tpl_vars['item'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['item']->_loop = false;
  $_from = $_smarty_tpl->tpl_vars['rsProducts']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
- $_smarty_tpl->tpl_vars['smarty']->value['foreach']['products']['iteration']=0;
 foreach ($_from as $_smarty_tpl->tpl_vars['item']->key => $_smarty_tpl->tpl_vars['item']->value){
 $_smarty_tpl->tpl_vars['item']->_loop = true;
- $_smarty_tpl->tpl_vars['smarty']->value['foreach']['products']['iteration']++;
 ?>
-         <tr>
-            <td><?php echo $_smarty_tpl->getVariable('smarty')->value['foreach']['products']['iteration'];?>
-</td>
-            <td><a href="/php%20shop/www/?controller=product&id=<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
-" class="main-link"><?php echo $_smarty_tpl->tpl_vars['item']->value['name'];?>
-</a>
-            </td>
-            <td>
-               <span id="itemCnt_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
-">
-                  <input type="hidden" name="itemCnt_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
-" value="<?php echo $_smarty_tpl->tpl_vars['item']->value['cnt'];?>
-">
-                  <?php echo $_smarty_tpl->tpl_vars['item']->value['cnt'];?>
+		<div class="cart__item">
+			<img src="/petunia/www/images/products/<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+.png" alt="" class="cart__img">
 
-               </span>
-            </td>
-            <td>
-               <span id="itemPrice_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
-">
-                  <input type="hidden" name="itemPrice_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
-" value="<?php echo $_smarty_tpl->tpl_vars['item']->value['price'];?>
-">
-                  <?php echo $_smarty_tpl->tpl_vars['item']->value['price'];?>
+			<div class="cart__name"><?php echo $_smarty_tpl->tpl_vars['item']->value['name'];?>
+</div>
+			<div class="cart__color"><span>Цвет:</span> <?php echo $_smarty_tpl->tpl_vars['item']->value['color'];?>
+</div>
+			<div class="cart__size"><span>Размер:</span> S</div>
+			<div class="cart__count">
+				<div class="item__plus" id="plus" onclick="countPlus(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+); conversionPrice(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+);">+
+				</div>
+				<input name="itemCnt_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+" id="itemCnt_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+" type="number" value="1"
+					oninput="conversionPrice(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+);" class="item__input" max="999">
+				<div class="item__minus" id="minus" onclick="countMinus(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+); conversionPrice(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+);">
+					-
+				</div>
+			</div>
+			<div class="cart__prc" id="itemPrice_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+"><?php echo $_smarty_tpl->tpl_vars['item']->value['price'];?>
+ руб.</div>
+			<div class="cart__price"><span id="itemRealPrice_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+" class="realprice">
+					<?php echo $_smarty_tpl->tpl_vars['item']->value['price'];?>
 
-               </span>
-            </td>
-            <td>
-               <span id="itemRealPrice_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
-">
-                  <input type="hidden" name="itemRealPrice_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
-" value="<?php echo $_smarty_tpl->tpl_vars['item']->value['realPrice'];?>
-">
-                  <?php echo $_smarty_tpl->tpl_vars['item']->value['realPrice'];?>
+				</span> руб.</div>
+			<div class="cart__remove">
+				<a id="removeCart_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+" href="/petunia/www/?controller=cart&action=removefromcart&id=<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+"
+					onclick="removeFromCart(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+); conversionPrice(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+); styleCart(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+); return false;"
+					alt="Удалить из корзины"><img src="/petunia/www/images/plus-icon.svg" alt=""></a>
+				<a id="addCart_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+" href="/petunia/www/?controller=cart&action=addtocart&id=<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+"
+					class="none"
+					onclick="addToCart(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+); conversionPrice(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+); unstyleCart(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+); return false;"
+					alt="Восстановить элемент"><img src="/petunia/www/images/plus-icon.svg" style="transform: rotate(45deg);"
+						alt=""></a>
+			</div>
+		</div>
+		<?php } ?>
+	</div>
+	<div class="cart__hr"></div>
+	<div class="cart__sum">
+		<br>ИТОГО: <span id="sumPrice"><?php echo $_smarty_tpl->tpl_vars['sum']->value;?>
+</span> руб.<br>
+	</div>
 
-               </span>
-            </td>
-         </tr>
-         <?php $_smarty_tpl->tpl_vars['sum'] = new Smarty_variable($_smarty_tpl->tpl_vars['sum']->value+$_smarty_tpl->tpl_vars['item']->value['price']*$_smarty_tpl->tpl_vars['item']->value['cnt'], null, 0);?>;
-         <?php } ?>
-      </table>
-   </div>
-   <div class="cart__sum">
-      <br>Итог: <span id="sumPrice"><?php echo $_smarty_tpl->tpl_vars['sum']->value;?>
-</span> рублей
-   </div>
+	<div class="ordering__info">
 
-   <?php if (isset($_smarty_tpl->tpl_vars['arUser']->value)){?>
-   <?php $_smarty_tpl->tpl_vars['buttonClass'] = new Smarty_variable('', null, 0);?>
-   <div id="orderUserInfoBox" <?php echo $_smarty_tpl->tpl_vars['buttonClass']->value;?>
- class="container">
-      <div class="title">
-         <h2>Данные заказчика</h2>
-      </div>
-      <?php $_smarty_tpl->tpl_vars['name'] = new Smarty_variable($_smarty_tpl->tpl_vars['arUser']->value['name'], null, 0);?>
-      <?php $_smarty_tpl->tpl_vars['phone'] = new Smarty_variable($_smarty_tpl->tpl_vars['arUser']->value['phone'], null, 0);?>
-      <?php $_smarty_tpl->tpl_vars['adress'] = new Smarty_variable($_smarty_tpl->tpl_vars['arUser']->value['adress'], null, 0);?>
-      <div class="form" id="form2">
-         <div class="form-control">
-            <label>Имя</label>
-            <input type="text" id="name" name="name" value="<?php echo $_smarty_tpl->tpl_vars['name']->value;?>
-" placeholder="Simon">
-            <i class="fas fa-check-circle"></i>
-            <i class="fas fa-exclamation-circle"></i>
-            <small>Error message</small>
-         </div>
-         <div class="form-control">
-            <label>Телефон</label>
-            <input type="phone" id="phone" name="phone" value="<?php echo $_smarty_tpl->tpl_vars['phone']->value;?>
-" placeholder="+7 (995) 656-51-37">
-            <i class="fas fa-check-circle"></i>
-            <i class="fas fa-exclamation-circle"></i>
-            <small>Error message</small>
-         </div>
-         <div class="form-control">
-            <label>Адрес</label>
-            <input type="text" id="adress" name="adress" value="<?php echo $_smarty_tpl->tpl_vars['adress']->value;?>
-" placeholder="Лесная 3">
-            <i class="fas fa-check-circle"></i>
-            <i class="fas fa-exclamation-circle"></i>
-            <small>Error message</small>
-         </div>
+		<div class="ordering__contacts">
+			<input type="email" class="ordering__input" placeholder="Ваш e-mail">
+			<input type="text" class="ordering__input" placeholder="Ваши ФИО">
+			<input data-tel-input class="ordering__input" placeholder="Ваш номер телефона">
+		</div>
 
-         <input <?php echo $_smarty_tpl->tpl_vars['buttonClass']->value;?>
- class="main-button" type="button" id="btnSaveOrder" value="Оформить заказ"
-            onclick="checkOrderParams(); saveOrder();">
-      </div>
+		<div class="ordering__name">Доставка</div>
 
-      <?php }else{ ?>
-      <div id="loginBox" class="container">
-         <div class="title">
-            <h2>Авторизация</h2>
-         </div>
-         <div class="form" id="form">
-            <div class="form-control">
-               <label>Email</label>
-               <input type="email" id="loginEmail" name="loginEmail" value="" placeholder="text@gmail.com">
-               <i class="fas fa-check-circle"></i>
-               <i class="fas fa-exclamation-circle"></i>
-               <small>Error message</small>
-            </div>
+		<div class="ordering__delivery">
+			<input type="text" class="ordering__input" placeholder="Регион">
+			<input type="text" class="ordering__input" placeholder="Город">
+			<div class="ordering__wrapper">
+				<input type="text" class="ordering__input" id="home" placeholder="Улица, дом, квартира">
+				<input type="number" class="ordering__input" placeholder="Почтовый индекс">
+			</div>
+		</div>
 
-            <div class="form-control">
-               <label>Пароль</label>
-               <input type="password" id="loginPwd" name="loginPwd" value="" placeholder="Password">
-               <i class="fas fa-check-circle"></i>
-               <i class="fas fa-exclamation-circle"></i>
-               <small>Error message</small>
-            </div>
+		<div class="ordering__name">Способ доставки</div>
 
-            <input id="orderBtn" class="main-button" type="button" onclick="checkLoginParams(); login();" value="Войти">
-         </div>
-      </div>
+		<div class="ordering__del">
+			<label for="post" class="ordering__label">
+				<div id="" class="ordering__checkbox checked"></div>
+				Почта России - 350 руб.
+			</label>
+			<label for="sdeck" class="ordering__label">
+				<div id="" class="ordering__checkbox"></div> СДЭК - 300 руб.
+			</label>
+			<label for="self" class="ordering__label">
+				<div id="" class="ordering__checkbox"></div>
+				Самовывоз
+			</label>
+		</div>
 
-      <br><br><span class="or">или</span><br><br>
-      <div class="container" id="registerBox">
-         <div class="title">
-            <h2>Зарегистрируйтесь</h2>
-         </div>
-         <div class="form">
-            <div class="form-control">
-               <label>Имя</label>
-               <input type="text" id="username" name="username" value="" placeholder="Simon">
-               <i class="fas fa-check-circle"></i>
-               <i class="fas fa-exclamation-circle"></i>
-               <small>Error message</small>
-            </div>
+		<textarea class="ordering__comment" placeholder="Комментарий к заказу"></textarea>
 
-            <div class="form-control">
-               <label>Email</label>
-               <input type="email" id="registerEmail" name="registerEmail" value="" placeholder="text@gmail.com">
-               <i class="fas fa-check-circle"></i>
-               <i class="fas fa-exclamation-circle"></i>
-               <small>Error message</small>
-            </div>
+	</div>
 
-            <div class="form-control">
-               <label>Пароль</label>
-               <input type="password" id="registerPwd1" name="registerPwd1" value="" placeholder="Password">
-               <i class="fas fa-check-circle"></i>
-               <i class="fas fa-exclamation-circle"></i>
-               <small>Error message</small>
-            </div>
+	<div class="ordering__button">К оплате</div>
 
-            <div class="form-control">
-               <label>Повтор пароля</label>
-               <input type="password" id="registerPwd2" name="registerPwd2" value="" placeholder="Password two">
-               <i class="fas fa-check-circle"></i>
-               <i class="fas fa-exclamation-circle"></i>
-               <small>Error message</small>
-            </div>
-
-            <input type="button" class="main-button" onclick="checkRegisterParams(); registerNewUser(0);"
-               value="Зарегистрироваться">
-         </div>
-      </div>
-      <?php $_smarty_tpl->tpl_vars['buttonClass'] = new Smarty_variable("class='hide'", null, 0);?>
-      <?php }?>
-
-
-
-</form><?php }} ?>
+</div><?php }} ?>

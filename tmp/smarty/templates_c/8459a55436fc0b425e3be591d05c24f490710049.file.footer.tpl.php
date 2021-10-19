@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.6, created on 2021-09-14 15:34:05
+<?php /* Smarty version Smarty-3.1.6, created on 2021-10-17 14:01:49
          compiled from "../views/default\footer.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:6748578085f99a9170672e5-51374682%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '8459a55436fc0b425e3be591d05c24f490710049' => 
     array (
       0 => '../views/default\\footer.tpl',
-      1 => 1631622844,
+      1 => 1634468504,
       2 => 'file',
     ),
   ),
@@ -86,7 +86,8 @@ $_smarty_tpl->tpl_vars['item']->_loop = true;
 	</div>
 </div>
 
-<script src="/petunia/www/templates/default/js/script.js"></script>
+<script src="/petunia/www/js/script.js"></script>
+<script src="/petunia/www/js/phonemask.js"></script>
 
 </body>
 

@@ -42,4 +42,21 @@
 		
 		return mysqli_fetch_assoc($rs);
 	}      
+
+	/*
+	*  Получить список продуктов из массива идентификаторов (ID`s)
+	* 
+	*  @param type $itemsIds массив идентификаторов продуктов
+	*  @return array массив данных продуктов
+	*/
+	function getProductsFromArray($itemsIds) {
+		global $db;
+		
+		$strIds = implode($itemsIds, ', ');
+		$sql = "SELECT * FROM `products` WHERE `status` = 1 and `id` in ({$strIds})";
+		
+		$rs = mysqli_query($db, $sql);
+		
+		return createSmartyRsArray($rs);
+	}
 ?>

@@ -11,7 +11,7 @@
 	<link rel="icon" href="/petunia/www/images/icon.png">
 </head>
 
-<body>
+<body onload="conversionPrice(1);">
 
 	<div class="index-page__line line">
 
@@ -42,8 +42,11 @@
 				<img src="/petunia/www/images/user-icon.png" alt="">
 			</a>
 
-			<a href="/petunia/www/?controller=cart">
+			<a class="line__cart" href="/petunia/www/?controller=cart">
 				<img src="/petunia/www/images/cart-icon.png" alt="">
+				<span id="cartCntItems" class="line__count {if $cartCntItems == 0}none{/if}">
+					{if $cartCntItems > 0}{$cartCntItems}{else}0{/if}
+				</span>
 			</a>
 
 		</div>

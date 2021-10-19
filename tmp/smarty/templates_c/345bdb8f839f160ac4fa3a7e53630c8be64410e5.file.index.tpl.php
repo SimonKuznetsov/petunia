@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.6, created on 2021-09-14 16:53:46
+<?php /* Smarty version Smarty-3.1.6, created on 2021-09-29 02:46:30
          compiled from "../views/default\index.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:17215895985f9930eabf4f03-59123257%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '345bdb8f839f160ac4fa3a7e53630c8be64410e5' => 
     array (
       0 => '../views/default\\index.tpl',
-      1 => 1631627612,
+      1 => 1632869641,
       2 => 'file',
     ),
   ),
@@ -23,6 +23,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'item' => 0,
     'itemChild' => 0,
     'rsBestOfferProducts' => 0,
+    'cart' => 0,
+    'itemInCart' => 0,
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
@@ -96,7 +98,10 @@ $_smarty_tpl->tpl_vars['item']->_loop = true;
 ?>
 
 			<div class="main__product product">
-				<img src="/petunia/www/images/products/1.png" alt="" class="product__img">
+				<a href="/petunia/www/?controller=product&id=<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+/"><img
+						src="/petunia/www/images/products/<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+.png" alt="" class="product__img"></a>
 
 				<div class="product__description">
 					<a href="/petunia/www/?controller=product&id=<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
@@ -120,7 +125,20 @@ $_smarty_tpl->tpl_vars['item']->_loop = true;
 						</select>
 					</div>
 
-					<a href="" class="product__cart">
+					<a class="<?php if (!in_array($_smarty_tpl->tpl_vars['item']->value['id'],$_smarty_tpl->tpl_vars['cart']->value)){?>none<?php }?>" id="removeCart_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+"
+						href="/petunia/www/?controller=cart&action=removefromcart&id=<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+"
+						onclick="removeFromCart(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+); return false;">
+						<div class="product__button">Удалить</div>
+					</a>
+					<a class="<?php if (in_array($_smarty_tpl->tpl_vars['item']->value['id'],$_smarty_tpl->tpl_vars['cart']->value)){?>none<?php }?>" id="addCart_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+"
+						href="/petunia/www/?controller=cart&action=addtocart&id=<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+" <?php if ($_smarty_tpl->tpl_vars['itemInCart']->value){?> class="none"
+						<?php }?> onclick="addToCart(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+); return false;">
 						<div class="product__button">В корзину</div>
 					</a>
 
@@ -136,11 +154,12 @@ $_smarty_tpl->tpl_vars['item']->_loop = true;
 					</div>
 				</div>
 			</div>
-
 			<?php } ?>
+			<div style="width: 100%;">
+				<div class="main__more aaa">Загрузить ещё</div>
+			</div>
 
 		</div>
-
 	</div>
 
 

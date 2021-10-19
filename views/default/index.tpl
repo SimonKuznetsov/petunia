@@ -54,7 +54,8 @@
 			{foreach $rsBestOfferProducts as $item name=products}
 
 			<div class="main__product product">
-				<img src="/petunia/www/images/products/1.png" alt="" class="product__img">
+				<a href="/petunia/www/?controller=product&id={$item['id']}/"><img
+						src="/petunia/www/images/products/{$item['id']}.png" alt="" class="product__img"></a>
 
 				<div class="product__description">
 					<a href="/petunia/www/?controller=product&id={$item['id']}/">
@@ -74,7 +75,14 @@
 						</select>
 					</div>
 
-					<a href="" class="product__cart">
+					<a class="{if ! in_array($item['id'], $cart)}none{/if}" id="removeCart_{$item['id']}"
+						href="/petunia/www/?controller=cart&action=removefromcart&id={$item['id']}"
+						onclick="removeFromCart({$item['id']}); return false;">
+						<div class="product__button">Удалить</div>
+					</a>
+					<a class="{if in_array($item['id'], $cart)}none{/if}" id="addCart_{$item['id']}"
+						href="/petunia/www/?controller=cart&action=addtocart&id={$item['id']}" {if $itemInCart} class="none"
+						{/if} onclick="addToCart({$item['id']}); return false;">
 						<div class="product__button">В корзину</div>
 					</a>
 
@@ -90,11 +98,12 @@
 					</div>
 				</div>
 			</div>
-
 			{/foreach}
+			<div style="width: 100%;">
+				<div class="main__more aaa">Загрузить ещё</div>
+			</div>
 
 		</div>
-
 	</div>
 
 
