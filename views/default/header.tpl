@@ -23,8 +23,12 @@
 			</div>
 
 			<div class="line__info">
-				<div class="line__text">Доставка</div>
-				<div class="line__text">Оплата</div>
+				<a href="/petunia/www/?controller=index&action=page&page=delivery">
+					<div class="line__text">Доставка</div>
+				</a>
+				<a href="/petunia/www/?controller=index&action=page&page=pay">
+					<div class="line__text">Оплата</div>
+				</a>
 			</div>
 		</div>
 
@@ -52,11 +56,21 @@
 		</div>
 
 		<div class="line__mobil close">
-			<div class="line__item">Каталог</div>
-			<div class="line__item">О нас</div>
-			<div class="line__item">Доставка</div>
-			<div class="line__item">Оплата</div>
-			<div class="line__item">Контакты</div>
+			<a href="/petunia/www/#" class="line__item">
+				<div>Каталог</div>
+			</a>
+			<a href="/petunia/www/#about" class="line__item">
+				<div>О нас</div>
+			</a>
+			<a href="/petunia/www/?controller=index&action=page&page=delivery" class="line__item">
+				<div>Доставка</div>
+			</a>
+			<a href="/petunia/www/?controller=index&action=page&page=pay" class="line__item">
+				<div>Оплата</div>
+			</a>
+			<a href="/petunia/www/#footer" class="line__item">
+				<div>Контакты</div>
+			</a>
 		</div>
 
 
@@ -64,10 +78,24 @@
 
 	<div class="small-header">
 		<div class="small-header__catalog">каталог ▼</div>
-		<a href="#about">
+		<a href="/petunia/www/#about">
 			<div class="small-header__about">о нас</div>
 		</a>
 		<a href="#footer">
 			<div class="small-header__contacts">контакты</div>
 		</a>
+		<div class="menu">
+			{foreach $rsCategories as $item name=catalog}
+			<div class="menu__item">
+				<div class="menu__title">{$item['name']}</div>
+				{if isset($item['children'])}
+				{foreach $item['children'] as $itemChild}
+				<a href="/petunia/www/?controller=category&id={$itemChild['id']}">
+					<div class="menu__child">{$itemChild['name']}</div>
+				</a>
+				{/foreach}
+				{/if}
+			</div>
+			{/foreach}
+		</div>
 	</div>

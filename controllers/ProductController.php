@@ -27,6 +27,8 @@
       if (in_array($itemId, $_SESSION['cart'])) {
          $smarty->assign('itemInCart', 1);
       }
+		$rsMainCategories = getAllMainCategories();
+		$smarty->assign('rsMainCategories', $rsMainCategories);
       
       $smarty->assign('pageTitle', $rsProduct['name']);
       $smarty->assign('rsCategories', $rsCategories);

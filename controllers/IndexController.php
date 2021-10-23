@@ -49,5 +49,27 @@
       loadTemplate($smarty, 'header');
       loadTemplate($smarty, 'index');
       loadTemplate($smarty, 'footer');
-   }
+   }	
+
+	 /* 
+   *  Формирование главной страницы сайта
+   * 
+   *  @param object $smarty шаблонизатор
+   */
+  function pageAction($smarty) {
+
+	loadTemplate($smarty, 'header');
+	if ($_GET['page'] == 'delivery') {
+		loadTemplate($smarty, 'delivery');
+		$smarty->assign('pageTitle', 'Доставка');
+	} else if ($_GET['page'] == 'pay') {
+		loadTemplate($smarty, 'pay');
+		$smarty->assign('pageTitle', 'Оплата');
+	}
+
+	$rsCategories = getAllMainCatsWithChildren();
+   $smarty->assign('rsCategories', $rsCategories);
+	
+	loadTemplate($smarty, 'footer');
+}
 ?>

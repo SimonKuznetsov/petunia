@@ -35,7 +35,9 @@
 		
       $cart = $_SESSION['cart'];
 
-      $smarty->assign('pageTitle', 'Товары категории' . $rsCategory['name']);
+      $smarty->assign('pageTitle', 'Петуния ' . $rsCategory['name']);
+		$rsMainCategories = getAllMainCategories();
+		$smarty->assign('rsMainCategories', $rsMainCategories);
 
       $smarty->assign('rsCategory', $rsCategory);
       $smarty->assign('rsProducts', $rsProducts);

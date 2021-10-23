@@ -136,6 +136,9 @@
       if (! isset($_SESSION['user'])) {
          $smarty->assign('hideLoginBox', 1);
       }
+
+		$rsMainCategories = getAllMainCategories();
+		$smarty->assign('rsMainCategories', $rsMainCategories);
       
       $smarty->assign('pageTitle', 'Заказ');
       $smarty->assign('rsCategories', $rsCategories);

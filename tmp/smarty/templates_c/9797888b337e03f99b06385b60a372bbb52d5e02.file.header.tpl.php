@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.6, created on 2021-10-12 07:03:30
+<?php /* Smarty version Smarty-3.1.6, created on 2021-10-21 21:31:56
          compiled from "../views/default\header.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:2475568085f99a916e1adb9-49004720%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '9797888b337e03f99b06385b60a372bbb52d5e02' => 
     array (
       0 => '../views/default\\header.tpl',
-      1 => 1634011407,
+      1 => 1634841072,
       2 => 'file',
     ),
   ),
@@ -22,6 +22,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'pageTitle' => 0,
     'teplateWebPath' => 0,
     'cartCntItems' => 0,
+    'rsCategories' => 0,
+    'item' => 0,
+    'itemChild' => 0,
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
@@ -52,8 +55,12 @@ css/style.css">
 			</div>
 
 			<div class="line__info">
-				<div class="line__text">Доставка</div>
-				<div class="line__text">Оплата</div>
+				<a href="/petunia/www/?controller=index&action=page&page=delivery">
+					<div class="line__text">Доставка</div>
+				</a>
+				<a href="/petunia/www/?controller=index&action=page&page=pay">
+					<div class="line__text">Оплата</div>
+				</a>
 			</div>
 		</div>
 
@@ -82,11 +89,21 @@ css/style.css">
 		</div>
 
 		<div class="line__mobil close">
-			<div class="line__item">Каталог</div>
-			<div class="line__item">О нас</div>
-			<div class="line__item">Доставка</div>
-			<div class="line__item">Оплата</div>
-			<div class="line__item">Контакты</div>
+			<a href="/petunia/www/#" class="line__item">
+				<div>Каталог</div>
+			</a>
+			<a href="/petunia/www/#about" class="line__item">
+				<div>О нас</div>
+			</a>
+			<a href="/petunia/www/?controller=index&action=page&page=delivery" class="line__item">
+				<div>Доставка</div>
+			</a>
+			<a href="/petunia/www/?controller=index&action=page&page=pay" class="line__item">
+				<div>Оплата</div>
+			</a>
+			<a href="/petunia/www/#footer" class="line__item">
+				<div>Контакты</div>
+			</a>
 		</div>
 
 
@@ -94,10 +111,35 @@ css/style.css">
 
 	<div class="small-header">
 		<div class="small-header__catalog">каталог ▼</div>
-		<a href="#about">
+		<a href="/petunia/www/#about">
 			<div class="small-header__about">о нас</div>
 		</a>
 		<a href="#footer">
 			<div class="small-header__contacts">контакты</div>
 		</a>
+		<div class="menu">
+			<?php  $_smarty_tpl->tpl_vars['item'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['item']->_loop = false;
+ $_from = $_smarty_tpl->tpl_vars['rsCategories']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+foreach ($_from as $_smarty_tpl->tpl_vars['item']->key => $_smarty_tpl->tpl_vars['item']->value){
+$_smarty_tpl->tpl_vars['item']->_loop = true;
+?>
+			<div class="menu__item">
+				<div class="menu__title"><?php echo $_smarty_tpl->tpl_vars['item']->value['name'];?>
+</div>
+				<?php if (isset($_smarty_tpl->tpl_vars['item']->value['children'])){?>
+				<?php  $_smarty_tpl->tpl_vars['itemChild'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['itemChild']->_loop = false;
+ $_from = $_smarty_tpl->tpl_vars['item']->value['children']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+foreach ($_from as $_smarty_tpl->tpl_vars['itemChild']->key => $_smarty_tpl->tpl_vars['itemChild']->value){
+$_smarty_tpl->tpl_vars['itemChild']->_loop = true;
+?>
+				<a href="/petunia/www/?controller=category&id=<?php echo $_smarty_tpl->tpl_vars['itemChild']->value['id'];?>
+">
+					<div class="menu__child"><?php echo $_smarty_tpl->tpl_vars['itemChild']->value['name'];?>
+</div>
+				</a>
+				<?php } ?>
+				<?php }?>
+			</div>
+			<?php } ?>
+		</div>
 	</div><?php }} ?>

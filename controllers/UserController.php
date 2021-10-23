@@ -5,10 +5,10 @@
 
 
    // Подключаем модели
-  /* include_once '../models/CategoriesModel.php';
-   include_once '../models/OrdersModel.php';
-   include_once '../models/UsersModel.php';
-   include_once '../models/PurchaseModel.php';*/
+  	include_once '../models/CategoriesModel.php';
+   //include_once '../models/OrdersModel.php';
+   //include_once '../models/UsersModel.php';
+   //include_once '../models/PurchaseModel.php';
 
 	/*
    *  Формирование главной страницы пользователя
@@ -20,7 +20,6 @@
 		/*if (! isset($_SESSION['user'])) {
 			redirect('/php%20shop/www/');
 		}*/
-
 		// Получаем список категорий для меню
 		//$rsCategories = getAllMainCatsWithChildren();
 
@@ -31,6 +30,9 @@
 		//$smarty->assign('rsCategories', $rsCategories);
 		//$smarty->assign('rsUserOrders', $rsUserOrders);
 		
+		$rsMainCategories = getAllMainCategories();
+		$smarty->assign('rsMainCategories', $rsMainCategories);
+
 		loadTemplate($smarty, 'header');
 		loadTemplate($smarty, 'user');
 		loadTemplate($smarty, 'footer');

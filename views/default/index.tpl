@@ -42,7 +42,9 @@
 				<div class="menu__title">{$item['name']}</div>
 				{if isset($item['children'])}
 				{foreach $item['children'] as $itemChild}
-				<div class="menu__child">{$itemChild['name']}</div>
+				<a href="/petunia/www/?controller=category&id={$itemChild['id']}">
+					<div class="menu__child">{$itemChild['name']}</div>
+				</a>
 				{/foreach}
 				{/if}
 			</div>
@@ -50,6 +52,22 @@
 		</div>
 
 		<div class="main__products">
+
+			<div class="main__line">
+				<div class="main__filters">
+					<img src="/petunia/www/images/filters-icon.png" alt="">
+					<div class="main__filters-icon">фильтры</div>
+				</div>
+
+				<div class="main__search">
+					<form id="searchForm" action="/php%20shop/www/?controller=index&action=search" method="POST">
+						<input class="main__input" type="text">
+						<button type="submit" class="main__searching" onclick="cleanSearchValue();"><img
+								src="/petunia/www/images/black-search-icon.png" alt=""></button>
+					</form>
+				</div>
+				<div class="main__sort"></div>
+			</div>
 
 			{foreach $rsBestOfferProducts as $item name=products}
 
@@ -92,9 +110,15 @@
 					</div>
 
 					<div class="product__sum">
-						<div class="product__minus">-</div>
-						<div class="product__number">1</div>
-						<div class="product__plus">+</div>
+						<div class="item__plus" id="plus" onclick="countPlus({$item['id']}); conversionPrice({$item['id']});">
+							+
+						</div>
+						<input name="itemCnt_{$item['id']}" id="itemCnt_{$item['id']}" type="number" value="1"
+							oninput="conversionPrice({$item['id']});" class="item__input" max="999">
+						<div class="item__minus" id="minus"
+							onclick="countMinus({$item['id']}); conversionPrice({$item['id']});">
+							-
+						</div>
 					</div>
 				</div>
 			</div>
