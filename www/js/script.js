@@ -372,22 +372,39 @@ checkbox.forEach(el => {
 *  @param integer itemId ID продукта
 *  @return в случае успеха обновятся данные корзины на странице
 */
-function addToCart(itemId) {
+function addToCart(itemId, n) {
 	console.log("js - addToCart");
+
+	let count = $('#itemCnt_' + itemId).val();
+	if (window.location.href.includes('cart')) {
+		var numero = parseInt(n);
+	} else {
+		var numero = $('#productCnt_' + itemId + ' option:selected').val();
+	}
+
+	let postData = { size: numero, count: count };
+	console.log(postData);
 	$.ajax({
 		type: 'POST',
 		async: false,
 		url: "/petunia/www/?controller=cart&action=addtocart&id=" + itemId,
 		dataType: 'json',
+		data: postData,
 		success: function (data) {
 			if (data['success']) {
 				$('#cartCntItems').html(data['cntItems']);
+				console.log($('#cartCntItems'));
 
+				$('#addCart' + numero + '_' + itemId).hide();
+				$('#removeCart' + numero + '_' + itemId).show();
 				$('#addCart_' + itemId).hide();
 				$('#removeCart_' + itemId).show();
 
+				$('#itemRealPrice' + n + '_' + itemId).addClass("realprice");
 
-				$('#itemRealPrice_' + itemId).addClass("realprice");
+				let productSize = $('#productCnt_' + itemId).val();
+
+				$('#cartSize' + numero + '_' + itemId).val(productSize);
 			}
 		}
 	});
@@ -399,32 +416,56 @@ function addToCart(itemId) {
 *  @param integer itemId ID продукта
 *  @return в случае успеха обновятся данные корзины на странице
 */
-function removeFromCart(itemId) {
+function removeFromCart(itemId, n) {
 	console.log("js - removeFromCart(" + itemId + ")");
+
+	let postData = { n: n };
+
 	$.ajax({
 		type: 'POST',
 		async: false,
 		url: "/petunia/www/?controller=cart&action=removeFromCart&id=" + itemId,
 		dataType: 'json',
+		data: postData,
 		success: function (data) {
 			if (data['success']) {
-				$('#itemRealPrice_' + itemId).removeClass("realprice");
+				$('#itemRealPrice' + n + '_' + itemId).removeClass("realprice");
 
 				$('#cartCntItems').html(data['cntItems']);
 
 				$('#addCart_' + itemId).show();
 				$('#removeCart_' + itemId).hide();
+				$('#addCart' + n + '_' + itemId).show();
+				$('#removeCart' + n + '_' + itemId).hide();
 			}
 		}
 	});
 }
 
-function styleCart(id) {
-	document.querySelector('#removeCart_' + id).parentNode.parentNode.style.backgroundColor = '#fcfafc';
+function styleCart(id, n) {
+	document.querySelector('#removeCart' + n + '_' + id).parentNode.parentNode.style.backgroundColor = '#fcfafc';
 }
 
-function unstyleCart(id) {
-	document.querySelector('#removeCart_' + id).parentNode.parentNode.style.backgroundColor = 'white';
+function unstyleCart(id, n) {
+	document.querySelector('#removeCart' + n + '_' + id).parentNode.parentNode.style.backgroundColor = 'white';
+}
+
+function changeParams(id, n) {
+
+	let count = $('#itemCnt' + n + '_' + id).val();
+
+	let postData = { size: n, count: count };
+
+	$.ajax({
+		type: 'POST',
+		async: false,
+		url: "/petunia/www/?controller=cart&action=changecount&id=" + id,
+		dataType: 'json',
+		data: postData,
+		success: function () {
+
+		}
+	});
 }
 
 /*
@@ -432,17 +473,17 @@ function unstyleCart(id) {
 * 
 *  @param integer itemId ID продукта
 */
-function conversionPrice(itemId) {
-	var newCnt = $('#itemCnt_' + itemId).val();
-	var itemPrice = parseInt($('#itemPrice_' + itemId).text());
+function conversionPrice(itemId, num) {
+	var newCnt = $('#itemCnt' + num + '_' + itemId).val();
+	var itemPrice = parseInt($('#itemPrice' + num + '_' + itemId).text());
 
 	if (parseInt(newCnt) < 1 || newCnt == '') {
 		newCnt = 1;
-		$('#itemCnt_' + itemId).val(1);
+		$('#itemCnt' + num + '_' + itemId).val(1);
 	}
 	var itemRealPrice = newCnt * itemPrice;
 
-	$('#itemRealPrice_' + itemId).html(itemRealPrice);
+	$('#itemRealPrice' + num + '_' + itemId).html(itemRealPrice);
 
 	var sum = 0;
 	$('.realprice').each(function () {
@@ -450,12 +491,32 @@ function conversionPrice(itemId) {
 	});
 	$('#sumPrice').html(sum);
 }
+
+
 /*
 *  Инкримент количества товара в корзине
 */
 var integer = 2;
 
-function countMinus(itemId) {
+function countMinus(itemId, num) {
+	let int = $('#itemCnt' + num + '_' + itemId).val();
+	int = parseInt(int) - 1;
+	$('#itemCnt' + num + '_' + itemId).val(int);
+	if (parseInt($('#itemCnt' + num + '_' + itemId).val()) < 1) {
+		$('#itemCnt' + num + '_' + itemId).val(1);
+	}
+}
+
+function countPlus(itemId, num) {
+	let int = $('#itemCnt' + num + '_' + itemId).val();
+	int = parseInt(int) + 1;
+	$('#itemCnt' + num + '_' + itemId).val(int);
+	if (parseInt($('#itemCnt' + num + '_' + itemId).val()) < 1) {
+		$('#itemCnt' + num + '_' + itemId).val(1);
+	}
+}
+
+function countIndexMinus(itemId) {
 	let int = $('#itemCnt_' + itemId).val();
 	int = parseInt(int) - 1;
 	$('#itemCnt_' + itemId).val(int);
@@ -464,7 +525,7 @@ function countMinus(itemId) {
 	}
 }
 
-function countPlus(itemId) {
+function countIndexPlus(itemId) {
 	let int = $('#itemCnt_' + itemId).val();
 	int = parseInt(int) + 1;
 	$('#itemCnt_' + itemId).val(int);
@@ -481,6 +542,322 @@ if (document.body.clientWidth > 767) {
 			menu.classList.remove('show');
 		} else {
 			menu.classList.add('show');
+		}
+	});
+}
+
+let filter = document.querySelector('.main__filters');
+if (document.body.clientWidth < 767 && filter) {
+
+	filter.addEventListener('click', function () {
+		if (filter.classList.contains('abc')) {
+			document.querySelector('.main__wrapper').style.display = 'none';
+			filter.classList.remove('abc');
+		} else {
+			document.querySelector('.main__wrapper').style.display = 'block';
+			filter.classList.add('abc');
+			document.querySelectorAll('.main__item').forEach(el => {
+				el.style.display = 'block';
+			});
+			document.querySelectorAll('.main__hr').forEach(el => {
+				el.style.display = 'block';
+			});
+		}
+	})
+
+
+
+	let search = document.querySelector('#searchFiltersImg');
+	search.addEventListener('click', function () {
+		if (search.classList.contains('abc')) {
+			document.querySelector('.main__wrapper').style.display = 'none';
+			search.classList.remove('abc');
+			document.querySelectorAll('.main__item').forEach(el => {
+				el.style.display = 'block';
+			});
+			document.querySelectorAll('.main__hr').forEach(el => {
+				el.style.display = 'block';
+			});
+		} else {
+			document.querySelector('.main__wrapper').style.display = 'block';
+			document.querySelectorAll('.main__item').forEach(el => {
+				el.style.display = 'none';
+
+			});
+			document.querySelectorAll('.main__hr').forEach(el => {
+				el.style.display = 'none';
+			});
+			search.classList.add('abc');
+		}
+	})
+}
+/* Очистить поле input после ввода */
+/*setTimeout(function cleanSearchValue() {
+	let element = $('.search__input');
+
+	element.val('');
+}, 500)*/
+
+
+window.onload = function () {
+	if (window.location.href.includes('cart') && !window.location.href.includes('order')) {
+		let items = document.querySelectorAll('.item__input');
+		let selects = document.querySelectorAll('.cart__select');
+		for (let i = 0; i < items.length; i++) {
+			let id = selects[i].id.substring(10);
+			let num = selects[i].options[selects[i].selectedIndex].value;
+			conversionPrice(id, num);
+
+			let select1 = document.querySelector('#cartSize1_' + id);
+			let select2 = document.querySelector('#cartSize2_' + id);
+			let select3 = document.querySelector('#cartSize3_' + id);
+			//console.log(select1, select2, select3);
+
+			if (select1 && select2 && select3) {
+				let select = document.querySelector('#cartSize' + num + '_' + id);
+				select.querySelectorAll('option').forEach(el => {
+					el.style.display = 'none';
+				});
+			} else if ((select1 && select2) || (select1 && select3) || (select2 && select3)) {
+				if (select1 && select2) {
+					document.querySelector('#cartSize' + num + '_' + id).querySelector('option[value="1"]').style.display = 'none';
+					document.querySelector('#cartSize' + num + '_' + id).querySelector('option[value="2"]').style.display = 'none';
+				} else if (select1 && select3) {
+					document.querySelector('#cartSize' + num + '_' + id).querySelector('option[value="1"]').style.display = 'none';
+					document.querySelector('#cartSize' + num + '_' + id).querySelector('option[value="3"]').style.display = 'none';
+				} else if (select2 && select3) {
+					document.querySelector('#cartSize' + num + '_' + id).querySelector('option[value="2"]').style.display = 'none';
+					document.querySelector('#cartSize' + num + '_' + id).querySelector('option[value="3"]').style.display = 'none';
+				}
+			} else if ((select1 && !select2 && !select3) || (select2 && !select1 && !select3) || (select3 && !select2 && !select1)) {
+				if (select1) {
+					document.querySelector('#cartSize' + num + '_' + id).querySelector('option[value="1"]').style.display = 'none';
+				} else if (select3) {
+					document.querySelector('#cartSize' + num + '_' + id).querySelector('option[value="3"]').style.display = 'none';
+				} else if (select2) {
+					document.querySelector('#cartSize' + num + '_' + id).querySelector('option[value="2"]').style.display = 'none';
+				}
+			}
+		}
+	} else if (window.location.href.includes('order')) {
+		let prices = document.querySelectorAll('.order__price span');
+		let counts = document.querySelectorAll('.order__count');
+		let realprices = document.querySelectorAll('.order__realprice');
+		let price = document.querySelector('#Price');
+		var orderSum = 0;
+
+		for (let i = 0; i < prices.length; i++) {
+			let sum = prices[i].innerText * counts[i].value;
+			realprices[i].innerHTML = `${sum} руб.`;
+			orderSum += sum;
+		}
+
+		price.innerHTML = orderSum;
+	}
+}
+
+function changePrice(id) {
+	let num = $('#productCnt_' + id + ' option:selected').val();
+
+	$('#productPrice1_' + id).css("display", "none");
+	$('#productPrice2_' + id).css("display", "none");
+	$('#productPrice3_' + id).css("display", "none");
+	$('#productPrice' + num + '_' + id).css("display", "block");
+}
+
+function changeCartPrice(id, n) {
+	let num = $('#cartSize' + n + '_' + id + ' option:selected').val();
+	console.log(num);
+	$('#itemPrice1_' + id).css("display", "none");
+	$('#itemPrice2_' + id).css("display", "none");
+	$('#itemPrice3_' + id).css("display", "none");
+	$('#itemPrice1_' + id).removeClass('exCartPrice' + num + '_' + id);
+	$('#itemPrice2_' + id).removeClass('exCartPrice' + num + '_' + id);
+	$('#itemPrice3_' + id).removeClass('exCartPrice' + num + '_' + id);
+	$('#itemPrice' + num + '_' + id).css("display", "block");
+	$('#itemPrice' + num + '_' + id).addClass('exCartPrice' + num + '_' + id);
+
+	var newCnt = $('#itemCnt' + n + '_' + id).val();
+	var itemPrice = parseInt($('.exCartPrice' + num + '_' + id).text());
+
+	if (parseInt(newCnt) < 1 || newCnt == '') {
+		newCnt = 1;
+		$('#itemCnt' + n + '_' + id).val(1);
+	}
+	var itemRealPrice = newCnt * itemPrice;
+
+	$('#itemRealPrice' + n + '_' + id).html(itemRealPrice);
+
+	var sum = 0;
+	$('.realprice').each(function () {
+		sum = sum + Number($(this).text());
+	});
+	$('#sumPrice').html(sum);
+
+	let select1 = document.querySelector('#cartSize1_' + id);
+	let select2 = document.querySelector('#cartSize2_' + id);
+	let select3 = document.querySelector('#cartSize3_' + id);
+	//console.log(select1, select2, select3);
+
+	if (select1 && select2 && select3) {
+		let select = document.querySelector('#cartSize' + num + '_' + id);
+		select.querySelectorAll('option').forEach(el => {
+			el.style.display = 'none';
+		});
+	} else if ((select1 && select2) || (select1 && select3) || (select2 && select3)) {
+		if (select1 && select2) {
+			document.querySelector('#cartSize' + n + '_' + id).querySelector('option[value="1"]').style.display = 'none';
+			document.querySelector('#cartSize' + n + '_' + id).querySelector('option[value="2"]').style.display = 'none';
+		} else if (select1 && select3) {
+			document.querySelector('#cartSize' + n + '_' + id).querySelector('option[value="1"]').style.display = 'none';
+			document.querySelector('#cartSize' + n + '_' + id).querySelector('option[value="3"]').style.display = 'none';
+		} else if (select2 && select3) {
+			document.querySelector('#cartSize' + n + '_' + id).querySelector('option[value="2"]').style.display = 'none';
+			document.querySelector('#cartSize' + n + '_' + id).querySelector('option[value="3"]').style.display = 'none';
+		}
+	} else if ((select1 && !select2 && !select3) || (select2 && !select1 && !select3) || (select3 && !select2 && !select1)) {
+		if (select1) {
+			document.querySelector('#cartSize' + n + '_' + id).querySelector('option[value="1"]').style.display = 'none';
+		} else if (select3) {
+			document.querySelector('#cartSize' + n + '_' + id).querySelector('option[value="3"]').style.display = 'none';
+		} else if (select2) {
+			document.querySelector('#cartSize' + n + '_' + id).querySelector('option[value="2"]').style.display = 'none';
+		}
+	}
+}
+
+function startAddAction(id, n) {
+	let size = document.querySelector('#cartSize' + n + '_' + id).options[document.querySelector('#cartSize' + n + '_' + id).selectedIndex].value;
+
+	addToCart(id, size);
+}
+
+function indexAddToCart(id) {
+	let int = $('#itemCnt_' + id).val();
+	addToCart(id, int);
+}
+
+function maxValue(id, n, limit) {
+	let input = document.querySelector('#itemCnt' + n + '_' + id);
+	if (input.value > limit) {
+		input.value = limit;
+	}
+}
+
+/*
+*  Проверка данных пользователя при создании заказа
+*/
+
+function checkOrderParams() {
+	let email = document.getElementById('email');
+	let name = document.getElementById('name');
+	let phone = document.getElementById('phone');
+	let region = document.getElementById('region');
+	let city = document.getElementById('city');
+	let place = document.getElementById('place');
+	let index = document.getElementById('index');
+	let comment = document.getElementById('comment');
+
+	let emailValue = email.value.trim();
+	let nameValue = name.value.trim();
+	let phoneValue = phone.value.trim();
+	let regionValue = region.value.trim();
+	let cityValue = city.value.trim();
+	let placeValue = place.value.trim();
+	let indexValue = index.value.trim();
+	let commentValue = comment.value.trim();
+
+	let success = 1;
+
+	if (emailValue == '') {
+		email.style.border = '1px solid red';
+		success = null;
+	} else {
+		email.style.border = '1px solid #B8B8B8';
+	}
+
+	if (nameValue == '') {
+		name.style.border = '1px solid red';
+		success = null;
+	} else {
+		name.style.border = '1px solid #B8B8B8';
+	}
+
+	if (phoneValue == '') {
+		phone.style.border = '1px solid red';
+		success = null;
+	} else {
+		phone.style.border = '1px solid #B8B8B8';
+	}
+
+	if (regionValue == '') {
+		region.style.border = '1px solid red';
+		success = null;
+	} else {
+		region.style.border = '1px solid #B8B8B8';
+	}
+
+	if (cityValue == '') {
+		city.style.border = '1px solid red';
+		success = null;
+	} else {
+		city.style.border = '1px solid #B8B8B8';
+	}
+
+	if (placeValue == '') {
+		place.style.border = '1px solid red';
+		success = null;
+	} else {
+		place.style.border = '1px solid #B8B8B8';
+	}
+
+	if (indexValue == '') {
+		index.style.border = '1px solid red';
+		success = null;
+	} else {
+		index.style.border = '1px solid #B8B8B8';
+	}
+
+	if (commentValue == '') {
+		comment.style.border = '1px solid red';
+		success = null;
+	} else {
+		comment.style.border = '1px solid #B8B8B8';
+	}
+
+	if (success == 1) {
+		saveOrder();
+	}
+}
+
+/*
+*  Сохранение заказа
+*/
+function saveOrder() {
+	let email = document.getElementById('email').value;
+	let name = document.getElementById('name').value;
+	let phone = document.getElementById('phone').value;
+	let region = document.getElementById('region').value;
+	let city = document.getElementById('city').value;
+	let place = document.getElementById('place').value;
+	let index = document.getElementById('index').value;
+	let comment = document.getElementById('comment').value;
+	let delivery = document.querySelector('.ordering__label .checked').parentNode.id;
+	let sum = document.getElementById('Price').innerText;
+	let realSum = parseInt(sum) + parseInt(delivery);
+
+	let postData = { email: email, name: name, phone: phone, region: region, city: city, place: place, index: index, comment: comment, delivery: delivery, sum: realSum };
+	console.log(postData);
+	$.ajax({
+		type: 'POST',
+		async: false,
+		url: "/petunia/www/?controller=cart&action=saveorder",
+		data: postData,
+		dataType: 'json',
+		success: function (data) {
+			if (data['success']) {
+				window.location.href = '/petunia/www/';
+			}
 		}
 	});
 }

@@ -16,32 +16,58 @@
 		<div class="cart__items">
 			{foreach $rsProducts as $item name=products}
 			<div class="cart__item">
-				<img src="/petunia/www/images/products/{$item['id']}.png" alt="" class="cart__img">
+				<a href="/petunia/www/?controller=product&id={$item['id']}/"><img
+						src="/petunia/www/images/products/{$item['image']}" alt="" class="cart__img"></a>
 
-				<div class="cart__name">{$item['name']}</div>
+
+				<a href="/petunia/www/?controller=product&id={$item['id']}/">
+					<div class="cart__name">{$item['name']}</div>
+				</a>
 				<div class="cart__color"><span>Цвет:</span> {$item['color']}</div>
-				<div class="cart__size"><span>Размер:</span> S</div>
+				<div class="cart__size"><span>Размер:</span><select
+						onchange="startAddAction({$item['id']}, {$item['size']}); removeFromCart({$item['id']}, {$item['size']}); document.location.reload();"
+						class="cart__select" id="cartSize{$item['size']}_{$item['id']}">
+						<option {if $item['size']==1} selected="selected" {/if} value="1">черенок
+						</option>
+						<option {if $item['size']==2} selected="selected" {/if} value="2">кустик
+						</option>
+						<option {if $item['size']==3} selected="selected" {/if} value="3">большой
+							куст</option>
+					</select></div>
 				<div class="cart__count">
-					<div class="item__plus" id="plus" onclick="countPlus({$item['id']}); conversionPrice({$item['id']});">+
+					<div class="item__plus" id="plus"
+						onclick="countPlus({$item['id']}, {$item['size']}); conversionPrice({$item['id']}, {$item['size']}); maxValue({$item['id']}, {$item['size']}, {$rsGoods[$item['id']][$item['size']]}); changeParams({$item['id']}, {$item['size']});">
+						+
 					</div>
-					<input name="itemCnt_{$item['id']}" id="itemCnt_{$item['id']}" type="number" value="1"
-						oninput="conversionPrice({$item['id']});" class="item__input" max="999">
-					<div class="item__minus" id="minus" onclick="countMinus({$item['id']}); conversionPrice({$item['id']});">
+					<input name="itemCnt_{$item['id']}" id="itemCnt{$item['size']}_{$item['id']}" type="number"
+						value="{$item['count']}"
+						oninput="conversionPrice({$item['id']}, {$item['size']}); maxValue({$item['id']}, {$item['size']}, {$rsGoods[$item['id']][$item['size']]}); changeParams({$item['id']}, {$item['size']});"
+						class="item__input">
+					<div class="item__minus" id="minus"
+						onclick="countMinus({$item['id']}, {$item['size']}); conversionPrice({$item['id']}, {$item['size']}); maxValue({$item['id']}, {$item['size']}, {$rsGoods[$item['id']][$item['size']]}); changeParams({$item['id']}, {$item['size']});">
 						-
 					</div>
 				</div>
-				<div class="cart__prc" id="itemPrice_{$item['id']}">{$item['price']} руб.</div>
-				<div class="cart__price"><span id="itemRealPrice_{$item['id']}" class="realprice">
+				<div class="cart__prc" id="itemPrice_{$item['id']}">
+					<div {if $item['size']!=1} style="display: none;" {else} class="exCartPrice{$item['size']}_{$item['id']}"
+						{/if} id="itemPrice1_{$item['id']}">{$item['priceS']}</div>
+					<div {if $item['size']!=2} style="display: none;" {else} class="exCartPrice{$item['size']}_{$item['id']}"
+						{/if} id="itemPrice2_{$item['id']}">{$item['priceM']}</div>
+					<div {if $item['size']!=3} style="display: none;" {else} class="exCartPrice{$item['size']}_{$item['id']}"
+						{/if} id="itemPrice3_{$item['id']}">{$item['priceL']}</div>
+					руб.
+				</div>
+				<div class="cart__price"><span id="itemRealPrice{$item['size']}_{$item['id']}" class="realprice">
 						{$item['price']}
 					</span> руб.</div>
 				<div class="cart__remove">
-					<a id="removeCart_{$item['id']}"
+					<a id="removeCart{$item['size']}_{$item['id']}"
 						href="/petunia/www/?controller=cart&action=removefromcart&id={$item['id']}"
-						onclick="removeFromCart({$item['id']}); conversionPrice({$item['id']}); styleCart({$item['id']}); return false;"
+						onclick="removeFromCart({$item['id']}, {$item['size']}); conversionPrice({$item['id']}, {$item['size']}); styleCart({$item['id']}, {$item['size']}); return false;"
 						alt="Удалить из корзины"><img src="/petunia/www/images/plus-icon.svg" alt=""></a>
-					<a id="addCart_{$item['id']}" href="/petunia/www/?controller=cart&action=addtocart&id={$item['id']}"
-						class="none"
-						onclick="addToCart({$item['id']}); conversionPrice({$item['id']}); unstyleCart({$item['id']}); return false;"
+					<a id="addCart{$item['size']}_{$item['id']}"
+						href="/petunia/www/?controller=cart&action=addtocart&id={$item['id']}" class="none"
+						onclick="addToCart({$item['id']}, {$item['size']}); conversionPrice({$item['id']}, {$item['size']}); unstyleCart({$item['id']}, {$item['size']}); return false;"
 						alt="Восстановить элемент"><img src="/petunia/www/images/plus-icon.svg"
 							style="transform: rotate(45deg);" alt=""></a>
 				</div>
@@ -54,7 +80,7 @@
 		</div>
 
 		<div class="cart__wrapper">
-			<button class="cart__button">Оформить заказ</button>
+			<button type="submit" class="cart__button">Оформить заказ</button>
 		</div>
 	</form>
 

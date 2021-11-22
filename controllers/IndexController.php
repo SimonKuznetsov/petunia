@@ -32,6 +32,13 @@
       $paginator['pageCnt'] = ceil($allCnt / $paginator['perPage']);
       $smarty->assign('paginator', $paginator);*/
 
+		$rsGoods = getAllGoods();
+		$goods =[];
+
+		for ($i=0; $i < sizeof($rsGoods); $i++) { 
+			$goods[$rsGoods[$i]['id']][$rsGoods[$i]['size']] = $rsGoods[$i]['count'];
+		}
+
       $rsCategories = getAllMainCatsWithChildren();
 
 		$rsMainCategories = getAllMainCategories();
@@ -45,6 +52,7 @@
 		$smarty->assign('rsMainCategories', $rsMainCategories);
       $smarty->assign('rsBestOfferProducts', $rsBestOfferProducts);
 		$smarty->assign('cart', $cart);
+		$smarty->assign('rsGoods', $goods);
 
       loadTemplate($smarty, 'header');
       loadTemplate($smarty, 'index');
@@ -70,6 +78,24 @@
 	$rsCategories = getAllMainCatsWithChildren();
    $smarty->assign('rsCategories', $rsCategories);
 	
+	loadTemplate($smarty, 'footer');
+}
+
+function searchAction($smarty) {
+	$productName = $_POST['search'];
+	if ($productName == null) {
+		redirect('/petunia/www/');
+	}
+
+	$cart = $_SESSION['cart'];
+	
+	$searchedProducts = searchProducts($productName);
+
+	$smarty->assign('searchedProducts', $searchedProducts);
+	$smarty->assign('cart', $cart);
+
+	loadTemplate($smarty, 'header');
+	loadTemplate($smarty, 'search');
 	loadTemplate($smarty, 'footer');
 }
 ?>

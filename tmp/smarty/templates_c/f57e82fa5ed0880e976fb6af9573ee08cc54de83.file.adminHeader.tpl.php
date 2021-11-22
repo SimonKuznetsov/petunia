@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.6, created on 2021-02-05 15:51:00
+<?php /* Smarty version Smarty-3.1.6, created on 2021-11-18 20:21:08
          compiled from "../views/admin\adminHeader.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:9313423925fbbabb637c360-99185514%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'f57e82fa5ed0880e976fb6af9573ee08cc54de83' => 
     array (
       0 => '../views/admin\\adminHeader.tpl',
-      1 => 1612529458,
+      1 => 1637256067,
       2 => 'file',
     ),
   ),
@@ -31,37 +31,31 @@ $_valid = $_smarty_tpl->decodeProperties(array (
    <title><?php echo $_smarty_tpl->tpl_vars['pageTitle']->value;?>
 </title>
    <link rel="stylesheet" href="<?php echo $_smarty_tpl->tpl_vars['teplateWebPath']->value;?>
-css/main.css">
-   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-   <script src="/php%20shop/www/templates/admin/js/admin.js"></script>
-   <script src="/php%20shop/www/templates/admin/js/pagination.js"></script>
-   <script src="https://kit.fontawesome.com/e739369670.js" crossorigin="anonymous"></script>
+css/admin.css">
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <script src="/petunia/www/templates/admin/js/admin.js"></script>
 </head>
 
-<body style="min-width: 767px;">
+<body>
 
-   <header class="admin-header">
-      <h1 class="main-title">Управление сайтом</h1>
-
-      <div>
-         <a class="header__main-button" href="/php%20shop/www/?controller=admin&action=addcategory">Главная</a><br>
+   <div class="aheader">
+      <div class="aheader__item">
+         <a class="aheader__link" href="/petunia/www/?controller=admin&action=category">Категории</a><br>
       </div>
-      <div>
-         <a class="header__main-button" href="/php%20shop/www/?controller=admin&action=category">Категории</a><br>
+      <div class="aheader__item">
+         <a class="aheader__link" href="/petunia/www/?controller=admin&action=products">Товар</a><br>
       </div>
-      <div>
-         <a class="header__main-button" href="/php%20shop/www/?controller=admin&action=products">Товар</a><br>
+      <div class="aheader__item">
+         <a class="aheader__link" href="/petunia/www/?controller=admin&action=orders">Заказы</a><br>
       </div>
-      <div>
-         <a class="header__main-button" href="/php%20shop/www/?controller=admin&action=orders">Заказы</a><br>
+		<div class="aheader__item">
+         <a class="aheader__link" href="/petunia/www/?controller=admin&action=goods">Остатки</a><br>
       </div>
-      <div>
-         <a class="header__main-button" href="/php%20shop/www/">На сайт</a><br>
+      <div class="aheader__item">
+         <a class="aheader__link" href="/petunia/www/">На сайт</a><br>
       </div>
-      <div>
-         <a href="/php%20shop/www/?controller=admin&action=logout" class="admin-header__logout">Выход</a>
+      <div class="aheader__item">
+         <a href="/petunia/www/?controller=admin&action=logout" class="aheader__logout">Выход</a>
       </div>
-   </header>
-
-
-   <div id="centerColumn"><?php }} ?>
+   </div>
+<?php }} ?>

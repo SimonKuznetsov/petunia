@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.6, created on 2020-12-30 15:42:09
+<?php /* Smarty version Smarty-3.1.6, created on 2021-11-22 19:43:10
          compiled from "../views/admin\adminOrders.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:3026349525fbf3964901772-24176881%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'f5949173ce98fde930df71ad4ac736fb0943fded' => 
     array (
       0 => '../views/admin\\adminOrders.tpl',
-      1 => 1609332122,
+      1 => 1637599389,
       2 => 'file',
     ),
   ),
@@ -19,18 +19,18 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'unifunc' => 'content_5fbf39649af32',
   'variables' => 
   array (
-    'rsOrders' => 0,
+    'orders' => 0,
     'item' => 0,
     'itemChild' => 0,
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_5fbf39649af32')) {function content_5fbf39649af32($_smarty_tpl) {?><div class="table__body" id="orderAdminTable">
-   <h2 class="table__title">Заказы</h2>
-   <?php if (!$_smarty_tpl->tpl_vars['rsOrders']->value){?>
+   <h2 class="aorders__title">Заказы</h2>
+   <?php if (!$_smarty_tpl->tpl_vars['orders']->value){?>
    Нет заказов
    <?php }else{ ?>
-   <table cellpadding="1" cellspacing="1" class="table__table">
+   <table cellpadding="1" border="1" cellspacing="1" class="aorders__table">
       <tr class="table__header">
          <th>№</th>
          <th>Действие</th>
@@ -42,7 +42,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
          <th>Дата изменения заказа</th>
       </tr>
       <?php  $_smarty_tpl->tpl_vars['item'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['item']->_loop = false;
- $_from = $_smarty_tpl->tpl_vars['rsOrders']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+ $_from = $_smarty_tpl->tpl_vars['orders']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
  $_smarty_tpl->tpl_vars['smarty']->value['foreach']['orders']['iteration']=0;
 foreach ($_from as $_smarty_tpl->tpl_vars['item']->key => $_smarty_tpl->tpl_vars['item']->value){
 $_smarty_tpl->tpl_vars['item']->_loop = true;
@@ -77,20 +77,22 @@ $_smarty_tpl->tpl_vars['item']->_loop = true;
 </td>
       </tr>
 
-      <tr class="hide" id="purchasesForOrderId_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+      <tr class="none" id="purchasesForOrderId_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
 ">
          <td colspan="8">
-            <?php if ($_smarty_tpl->tpl_vars['item']->value['children']){?>
-            <table cellpadding="1" cellspacing="1" width="100%" class="table__table">
+            <?php if ($_smarty_tpl->tpl_vars['item']->value['purchases']){?>
+            <table cellpadding="1" cellspacing="1" border="1" width="100%" class="table__table">
                <tr class="table__header">
                   <th>№</th>
                   <th>ID</th>
                   <th>Название</th>
-                  <th>Цена</th>
+						<th>Размер</th>
                   <th>Количество</th>
+						<th>Цена</th>
+						<th>Стоимость</th>
                </tr>
                <?php  $_smarty_tpl->tpl_vars['itemChild'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['itemChild']->_loop = false;
- $_from = $_smarty_tpl->tpl_vars['item']->value['children']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+ $_from = $_smarty_tpl->tpl_vars['item']->value['purchases']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
  $_smarty_tpl->tpl_vars['smarty']->value['foreach']['products']['iteration']=0;
 foreach ($_from as $_smarty_tpl->tpl_vars['itemChild']->key => $_smarty_tpl->tpl_vars['itemChild']->value){
 $_smarty_tpl->tpl_vars['itemChild']->_loop = true;
@@ -107,10 +109,14 @@ $_smarty_tpl->tpl_vars['itemChild']->_loop = true;
                         class="main-link"><?php echo $_smarty_tpl->tpl_vars['itemChild']->value['name'];?>
 </a>
                   </td>
-                  <td><?php echo $_smarty_tpl->tpl_vars['itemChild']->value['price'];?>
+						<td><?php echo $_smarty_tpl->tpl_vars['itemChild']->value['size'];?>
 </td>
                   <td><?php echo $_smarty_tpl->tpl_vars['itemChild']->value['amount'];?>
 </td>
+						<td><?php echo $_smarty_tpl->tpl_vars['itemChild']->value['price'];?>
+ руб.</td>
+						<td><?php echo $_smarty_tpl->tpl_vars['itemChild']->value['price']*$_smarty_tpl->tpl_vars['itemChild']->value['amount'];?>
+ руб.</td>
                </tr>
                <?php } ?>
             </table>

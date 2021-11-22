@@ -59,21 +59,40 @@
 					<div class="main__filters-icon">фильтры</div>
 				</div>
 
-				<div class="main__search">
-					<form id="searchForm" action="/php%20shop/www/?controller=index&action=search" method="POST">
-						<input class="main__input" type="text">
-						<button type="submit" class="main__searching" onclick="cleanSearchValue();"><img
-								src="/petunia/www/images/black-search-icon.png" alt=""></button>
-					</form>
+				<img id="searchFiltersImg" src="/petunia/www/images/black-search-icon.png" alt="">
+
+				<div class="main__wrapper">
+					<div class="main__hr"></div>
+					<div class="main__item">сортировка <img src="/petunia/www/images/small-right-icon.png" alt="">
+						<div class="main__sort">
+							<select class="main__select">
+								<option value="main">s</option>
+								<option value="up">m</option>
+								<option value="down">l</option>
+							</select>
+						</div>
+					</div>
+					<div class="main__hr"></div>
+					<div class="main__item">цена <img src="/petunia/www/images/small-right-icon.png" alt=""></div>
+					<div class="main__hr"></div>
+					<div class="main__item">цвет <img src="/petunia/www/images/small-right-icon.png" alt=""></div>
+
+					<div class="main__search">
+						<form id="searchForm" action="/petunia/www/?controller=index&action=search" method="POST">
+							<input class="main__input" type="text" name="search" placeholder="ПОИСК">
+							<button type="submit" class="main__searching"><img src="/petunia/www/images/black-search-icon.png"
+									alt=""></button>
+						</form>
+					</div>
+					<div class="main__sort"></div>
 				</div>
-				<div class="main__sort"></div>
 			</div>
 
 			{foreach $rsBestOfferProducts as $item name=products}
 
 			<div class="main__product product">
 				<a href="/petunia/www/?controller=product&id={$item['id']}/"><img
-						src="/petunia/www/images/products/{$item['id']}.png" alt="" class="product__img"></a>
+						src="/petunia/www/images/products/{$item['image']}" alt="" class="product__img"></a>
 
 				<div class="product__description">
 					<a href="/petunia/www/?controller=product&id={$item['id']}/">
@@ -82,20 +101,25 @@
 
 					<div class="product__desc">{$item['description']}</div>
 
-					<div class="product__price">{$item['price']} руб.</div>
+					<div class="product__price">
+						<span id="productPrice2_{$item['id']}">{$item['priceM']} </span>
+						<span style="display: none;" id="productPrice1_{$item['id']}">{$item['priceS']} </span>
+						<span style="display: none;" id="productPrice3_{$item['id']}">{$item['priceL']} </span> руб.
+					</div>
 
 					<div class="product__size">
 						размер:
-						<select class="product__select">
-							<option value="s">s</option>
-							<option value="m">m</option>
-							<option value="l">l</option>
+						<select class="product__select" id="productCnt_{$item['id']}"
+							onchange="changePrice({$item['id']}); addToCart({$item['id']}); return false;">
+							<option value="1">черенок</option>
+							<option value="2" selected="selected">кустик</option>
+							<option value="3">большой куст</option>
 						</select>
 					</div>
 
 					<a class="{if ! in_array($item['id'], $cart)}none{/if}" id="removeCart_{$item['id']}"
 						href="/petunia/www/?controller=cart&action=removefromcart&id={$item['id']}"
-						onclick="removeFromCart({$item['id']}); return false;">
+						onclick="removeFromCart({$item['id']}, 2); return false;">
 						<div class="product__button">Удалить</div>
 					</a>
 					<a class="{if in_array($item['id'], $cart)}none{/if}" id="addCart_{$item['id']}"
@@ -110,13 +134,14 @@
 					</div>
 
 					<div class="product__sum">
-						<div class="item__plus" id="plus" onclick="countPlus({$item['id']}); conversionPrice({$item['id']});">
+						<div class="item__plus" id="plus"
+							onclick="countIndexPlus({$item['id']}); indexAddToCart({$item['id']});">
 							+
 						</div>
 						<input name="itemCnt_{$item['id']}" id="itemCnt_{$item['id']}" type="number" value="1"
-							oninput="conversionPrice({$item['id']});" class="item__input" max="999">
+							class="item__input" onchange="indexAddToCart({$item['id']}); return false;">
 						<div class="item__minus" id="minus"
-							onclick="countMinus({$item['id']}); conversionPrice({$item['id']});">
+							onclick="countIndexMinus({$item['id']}); indexAddToCart({$item['id']});">
 							-
 						</div>
 					</div>

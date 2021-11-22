@@ -19,7 +19,7 @@
       $rs = mysqli_query($db, $sqlCnt);
       $cnt = createSmartyRsArray($rs);
       
-      $sql = "SELECT * FROM `products` WHERE `best_offer` = 1 ORDER BY `id` DESC LIMIT 12";
+      $sql = "SELECT * FROM `products` WHERE `best_offer` = 1 and `status` = 1 ORDER BY `id` DESC LIMIT 12";
            
       $rs = mysqli_query($db, $sql);
 
@@ -113,10 +113,21 @@ function getProductById($itemId) {
 function getProductsFromArray($itemsIds) {
 	global $db;
 	
-	$strIds = implode($itemsIds, ', ');
-	$sql = "SELECT * FROM `products` WHERE `status` = 1 and `id` in ({$strIds})";
+	$strIds = array_values($itemsIds);
+
+	$sql = "SELECT * FROM (SELECT {$strIds[0]} AS a ";
 	
+	for ($i=1; $i < sizeof($strIds); $i++) { 
+		$sql .= "UNION ALL SELECT {$strIds[$i]} ";
+	}
+	
+	$sql .= ") n LEFT JOIN `products` p ON n.a=p.id";
+
+	//d($sql);
+
 	$rs = mysqli_query($db, $sql);
+
+	//d(createSmartyRsArray($rs));
 	
 	return createSmartyRsArray($rs);
 }
@@ -131,6 +142,7 @@ function getProducts() {
 	return createSmartyRsArray($rs);
 }
 
+
 /*
 *  Добавление нового товара
 * 
@@ -140,50 +152,42 @@ function getProducts() {
 *  @param integer $itemCat ID категории
 *  @return type 
 */
-function insertProduct($itemName, $itemPrice, $itemDesc, $itemCat) {
+function insertProduct($itemName, $itemPrice1, $itemPrice2, $itemPrice3, $itemColor, $itemDesc, $itemFullDesc, $itemBest, $itemCat) {
 	global $db;
 
-	$sql = "INSERT INTO `products` SET `name` = '{$itemName}', `price` = '{$itemPrice}', `description` = '{$itemDesc}', `category_id` = '{$itemCat}', `image` = ''";
+	$sql = "INSERT INTO `products` SET `name` = '{$itemName}', `priceS` = '{$itemPrice1}', `priceM` = '{$itemPrice2}', `priceL` = '{$itemPrice3}', `description` = '{$itemDesc}', `fullDesc` = '{$itemFullDesc}', `color` = '{$itemColor}', `best_offer` = '{$itemBest}', `category_id` = '{$itemCat}', `image` = ''";
 	
 	$rs = mysqli_query($db, $sql);
 	
 	return $rs;
 }
 
-function updateProduct($itemId, $itemName, $itemPrice, $itemStatus, $itemDesc, $itemCat, $newFileName = null) {
+function updateProduct($itemId, $itemName, $itemPrice1, $itemPrice2, $itemPrice3, $itemColor, $itemDesc, $itemFullDesc, $itemBest, $itemCat, $itemStatus) {
 	global $db;
 
-	$set = array();
+	$sql = "UPDATE `products` SET `name` = '{$itemName}', `priceS` = '{$itemPrice1}', `priceM` = '{$itemPrice2}', `priceL` = '{$itemPrice3}', `description` = '{$itemDesc}', `fullDesc` = '{$itemFullDesc}', `color` = '{$itemColor}', `best_offer` = '{$itemBest}', `category_id` = '{$itemCat}', `image` = '', `status` = '{$itemStatus}' WHERE `id` = '{$itemId}'";
 
-	if ($itemName) {
-		$set[] = "`name` = '{$itemName}'";
-	}
-	if ($itemPrice > 0) {
-		$set[] = "`price` = '{$itemPrice}'";
-	}
-	if ($itemStatus !== null) {
-		$set[] = "`status` = '{$itemStatus}'";
-	}
-	if ($itemDesc) {
-		$set[] = "`description` = '{$itemDesc}'";
-	}
-	if ($itemCat) {
-		$set[] = "`category_id` = '{$itemCat}'";
-	}
-	if ($newFileName) {
-		$set[] = "`image` = '{$newFileName}'";
-	}
-
-	$setStr = implode($set, ", ");
-	$sql = "UPDATE `products` SET {$setStr} WHERE `id` = '{$itemId}'";
-	
 	$rs = mysqli_query($db, $sql);
 	
 	return $rs;
 }
 
 function updateProductImage($itemId, $newFileName) {
-	$rs = updateProduct($itemId, null, null, null, null, null, $newFileName);
+	global $db;
+
+	$sql = "UPDATE `products` SET `image` = '{$newFileName}' WHERE `id` = '{$itemId}'";
+
+	$rs = mysqli_query($db, $sql);
+	
+	return $rs;
+}
+
+function updateProductImages($itemId, $newFileName, $i) {
+	global $db;
+
+	$sql = "UPDATE `products` SET `image{$i}` = '{$newFileName}' WHERE `id` = '{$itemId}'";
+	//d($sql);
+	$rs = mysqli_query($db, $sql);
 	
 	return $rs;
 }
@@ -193,7 +197,7 @@ function insertImportProducts($aProducts) {
 
 	if (! is_array($aProducts)) return false;
 
-	$sql = "INSERT INTO `products` (`name`, `category_id`, `description`, `price`, `status`) VALUES ";
+	$sql = "INSERT INTO `products` (`name`, `category_id`, `description`, `fullDesc`, `color`, `priceS`, `priceM`, `priceL`, `best_offer`, `status`) VALUES ";
 	$cnt = count($aProducts);
 	for ($i = 0; $i < $cnt; $i++) {
 		if ($i > 0) $sql .= ', ';
@@ -212,5 +216,68 @@ function searchProducts($name) {
 	$rs = mysqli_query($db, $sql);
 
 	return createSmartyRsArray($rs);
+}
+
+function getAllGoods() {
+	global $db;
+
+	$sql = "SELECT * FROM `goods`";
+	
+	$rs = mysqli_query($db, $sql);
+
+	return createSmartyRsArray($rs);
+}
+
+function getGoodsById($id, $n) {
+	global $db;
+
+	$sql = "SELECT `count` FROM `goods` WHERE `id` = {$id} and `size` = {$n}";
+
+	$rs = mysqli_query($db, $sql);
+
+	return createSmartyRsArray($rs);
+}
+
+function insertGoods($gProducts) {
+	global $db;
+	
+	$sql = "INSERT INTO `goods` (`id`, `size`, `count`) VALUES ";
+	
+	$cnt = count($gProducts);
+	for ($i = 0; $i < $cnt; $i++) {
+		if ($i > 0) $sql .= ', ';
+		$sql .= "('". implode("', '", $gProducts[$i]) . "')";
+	}
+	
+	$rs = mysqli_query($db, $sql);
+	return $rs;
+}
+
+function getProductNameById($id) {
+	global $db;
+
+	$sql = "SELECT `name` FROM `products` WHERE `id` = {$id}";
+
+	$rs = mysqli_query($db, $sql);
+
+	return createSmartyRsArray($rs);
+}
+
+function deleteGood($id) {
+	global $db;
+
+	$sql = "DELETE FROM `goods` WHERE `id` = {$id}";
+	
+	$rs = mysqli_query($db, $sql);
+	return $rs;
+}
+
+function updateGoods($id, $count, $size) {
+	global $db;
+
+	$sql = "UPDATE `goods` SET `count` = {$count} WHERE `id` = {$id} and `size` = {$size}";
+	
+	$rs = mysqli_query($db, $sql);
+	return $rs;
 }
 ?>

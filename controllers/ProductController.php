@@ -29,6 +29,9 @@
       }
 		$rsMainCategories = getAllMainCategories();
 		$smarty->assign('rsMainCategories', $rsMainCategories);
+
+		$cart = $_SESSION['cart'];
+		$smarty->assign('cart', $cart);
       
       $smarty->assign('pageTitle', $rsProduct['name']);
       $smarty->assign('rsCategories', $rsCategories);

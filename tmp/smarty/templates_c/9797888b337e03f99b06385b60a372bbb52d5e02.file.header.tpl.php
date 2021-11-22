@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.6, created on 2021-10-21 21:31:56
+<?php /* Smarty version Smarty-3.1.6, created on 2021-11-22 22:05:00
          compiled from "../views/default\header.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:2475568085f99a916e1adb9-49004720%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '9797888b337e03f99b06385b60a372bbb52d5e02' => 
     array (
       0 => '../views/default\\header.tpl',
-      1 => 1634841072,
+      1 => 1637607889,
       2 => 'file',
     ),
   ),
@@ -41,6 +41,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 	<link rel="stylesheet" href="<?php echo $_smarty_tpl->tpl_vars['teplateWebPath']->value;?>
 css/style.css">
 	<link rel="icon" href="/petunia/www/images/icon.png">
+	<meta name="interkassa-verification" content="037eec30c94395fd54abd1f466785f1a" />
 </head>
 
 <body onload="conversionPrice(1);">

@@ -23,14 +23,31 @@
        
       $resData = array();
 
+		$cnt = array_count_values($_SESSION['cart']);
+		$size = $_POST['size'];
+		$count = isset($_POST['count']) ? $_POST['count'] : 1;
+
+		$rsGoods = getAllGoods();
+		$goods =[];
+
+		for ($i=0; $i < sizeof($rsGoods); $i++) { 
+			$goods[$rsGoods[$i]['id']][$rsGoods[$i]['size']] = $rsGoods[$i]['count'];
+		}
+
       // Если значение не найдено то добавляем
-      if (isset($_SESSION['cart']) && array_search($itemId, $_SESSION['cart']) === false) {
+      if (isset($_SESSION['cart']) && $cnt[$itemId] < 3 && !$_SESSION['params'][$itemId][$size] && $goods[$itemId][$size]+1 > $count) {
          $_SESSION['cart'][] = $itemId;
          $resData['cntItems'] = count($_SESSION['cart']);
          $resData['success'] = 1;
       } else {
          $resData['success'] = 0;
       }
+
+		
+		if (isset($_SESSION['cart']) && $goods[$itemId][$size]+1 > $count) {
+			$_SESSION['params'][$itemId][$size] = $count;
+		}
+		
 
       echo json_encode($resData);
    }
@@ -44,6 +61,9 @@
    function removefromcartAction() {
       $itemId = isset($_GET['id']) ? intval($_GET['id']) : null;
       if (! $itemId) exit(); 
+
+		$n = $_POST['n'];
+	
        
       $resData = array();
       $key = array_search($itemId, $_SESSION['cart']);
@@ -54,6 +74,11 @@
       } else {
          $resData['success'] = 0;
       }
+		
+		unset($_SESSION['params'][$itemId][$n]);
+		if (sizeof($_SESSION['params'][$itemId]) == 0) {
+			unset($_SESSION['params'][$itemId]);
+		}
 
       echo json_encode($resData);
    }
@@ -66,14 +91,46 @@
 		
       $rsCategories = getAllMainCatsWithChildren();
       $rsProducts = getProductsFromArray($itemsIds);
-      
+		$cart = $_SESSION['cart'];
+		$rsGoods = getAllGoods();
+		$goods =[];
+
+		for ($i=0; $i < sizeof($rsGoods); $i++) { 
+			$goods[$rsGoods[$i]['id']][$rsGoods[$i]['size']] = $rsGoods[$i]['count'];
+		}
+		
+		$params = $_SESSION['params'];
+		$ID = $rsProducts[0]['id'];
+		//d($params);
+		for ($i=0; $i < sizeof($_SESSION['cart']); $i++) { 
+			$rsProducts[$i]['size'] = key($params[$rsProducts[$i]['id']]);
+			$rsProducts[$i]['count'] = $params[$rsProducts[$i]['id']][$rsProducts[$i]['size']];
+			unset($params[$rsProducts[$i]['id']][$rsProducts[$i]['size']]);
+		}
+		
       $smarty->assign('pageTitle', 'Корзина');
       $smarty->assign('rsCategories', $rsCategories);
       $smarty->assign('rsProducts', $rsProducts);
-      
+		
+		$smarty->assign('cart', $cart);
+		$smarty->assign('rsGoods', $goods);
+		
+		$smarty->assign('productParams', $_SESSION['params']);
+
       loadTemplate($smarty, 'header');
       loadTemplate($smarty, 'cart');
       loadTemplate($smarty, 'footer');
+   }
+
+	function changecountAction() {
+      $itemId = isset($_GET['id']) ? intval($_GET['id']) : null;
+      if (! $itemId) return false; 
+
+		$size = $_POST['size'];
+		$count = isset($_POST['count']) ? $_POST['count'] : 1;
+		echo '123';
+		$_SESSION['params'][$itemId][$size] = $count;
+
    }
 
    /*
@@ -87,49 +144,16 @@
          redirect('/petunia/www/?controller=cart');
          return;
       }
-
-      // Получаем из массива $_POST количество покупаемых товаров
-      $itemsCnt = array();
-      foreach ($itemsIds as $item) {
-         // Формируем ключ для массива POST
-         $postVar = 'itemCnt_' . $item;
-         // Создаём элемент массива количества покупаемого товара
-         // Ключ массива - ID товара, значение массива - количество товара
-         // $itemsCnt[1] = 3; тавар с ID == 1 покупают 3 штуки
-         $itemsCnt[$item] = isset($_POST[$postVar]) ? $_POST[$postVar] : null;
-      }
-
-      // Получаем список продуктов по массиву корзины
-      $rsProducts = getProductsFromArray($itemsIds);
-
-      // Добавляем каждому продукту дополнительное поле
-      // "realPrice = количество продуктов * на цену продукта"
-      // "cnt" = количество покупаемого товара
-
-      // &$item - для того, чтобы при изменении переменной $item менялся и элемент массива $rsProducts
-      $i = 0;
-      foreach ($rsProducts as &$item) {
-         $item['cnt'] = isset($itemsCnt[$item['id']]) ? $itemsCnt[$item['id']] : 0;
-         if ($item['cnt']) {
-            $item['realPrice'] = $item['cnt'] * $item['price'];
-            $sum = $sum + $item['realPrice'];
-         } else {
-            // Если вдруг получилось так, что товар в корзине есть, а количество == нулю, то удаляем этот товар
-            unset($rsProducts[$i]);
-         }
-         $i++;
-      }
-      
-      $_SESSION['payment']['sum'] = $sum;
-
-      if (! $rsProducts) { 
-         echo "Корзина пуста";
-         return;
-      }
-     
-      // Полученный массив покупаемых товаров помещаем в сессионную переменную
-      $_SESSION['saleCart'] = $rsProducts;
-
+		
+		$rsProducts = getProductsFromArray($itemsIds);
+		$params = $_SESSION['params'];
+		$ID = $rsProducts[0]['id'];
+		
+		for ($i=0; $i < sizeof($_SESSION['cart']); $i++) { 
+			$rsProducts[$i]['size'] = key($params[$rsProducts[$i]['id']]);
+			$rsProducts[$i]['count'] = $params[$rsProducts[$i]['id']][$rsProducts[$i]['size']];
+			unset($params[$rsProducts[$i]['id']][$rsProducts[$i]['size']]);
+		}
       $rsCategories = getAllMainCatsWithChildren();
 
       // hideLoginBox переменная - флаг для того, чтобы спрятать блоки логина и регистрации
@@ -157,8 +181,11 @@
    */
    function saveorderAction() {
       // Получаем массива покупаемых товаров
-      $cart = isset($_SESSION['saleCart']) ? $_SESSION['saleCart'] : null;
+     // $cart = isset($_SESSION['saleCart']) ? $_SESSION['saleCart'] : null;
       // Если корзина пуста, то формируем ответ с ошибкой, отдоём его в формате json и выходим из функции
+
+		$cart = $_SESSION['params'];
+		
       if (! $cart) {
          $resData['success'] = 0;
          $resData['message'] = 'Нет товаров для заказа';
@@ -166,12 +193,17 @@
          return;
       }
 
+      $email = $_POST['email'];
       $name = $_POST['name'];
       $phone = $_POST['phone'];
-      $adress = $_POST['adress'];
+		$region = $_POST['region'];
+      $city = $_POST['city'];
+      $place = $_POST['place'];
+		$index = $_POST['index'];
+		$sum = $_POST['sum'];
       
       // Создаём новый заказ и получаем его ID
-      $orderId = makeNewOrder($name, $phone, $adress, $_SESSION['payment']['sum']);
+      $orderId = makeNewOrder($email, $name, $phone, $region, $city, $place, $index, $sum);
       $_SESSION['payment']['id'] = $orderId;
       
       // Если заказ не создан, то выдаём ошибку и завершаем функцию
@@ -182,15 +214,26 @@
          return;
       }
 
+		$itemsIds = $_SESSION['cart'];
+		$rsProducts = getProductsFromArray($itemsIds);
+		$params = $_SESSION['params'];
+		$ID = $rsProducts[0]['id'];
+		
+		for ($i=0; $i < sizeof($_SESSION['cart']); $i++) { 
+			$rsProducts[$i]['size'] = key($params[$rsProducts[$i]['id']]);
+			$rsProducts[$i]['count'] = $params[$rsProducts[$i]['id']][$rsProducts[$i]['size']];
+			unset($params[$rsProducts[$i]['id']][$rsProducts[$i]['size']]);
+		}
+
       // Сохраняем товары для созданного заказа
-      $res = setPurchaseForOrder($orderId, $cart);
+      $res = setPurchaseForOrder($orderId, $rsProducts);
 
       // Ели успешно, то формируем ответ, удоляем переменные корзины
       if ($res) {
          $resData['success'] = 1;
          $resData['message'] = 'Заказ сохранен';
-         unset($_SESSION['saleCart']);
-         unset($_SESSION['cart']);
+         $_SESSION['cart'] = [];
+			$_SESSION['params'] = [];
       } else {
          $resData['success'] = 0;
          $resData['message'] = 'Ошибка внесения данных для заказа № ' . $orderId;

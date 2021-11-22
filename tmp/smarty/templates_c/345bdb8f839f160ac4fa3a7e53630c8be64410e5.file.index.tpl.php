@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.6, created on 2021-10-23 20:21:06
+<?php /* Smarty version Smarty-3.1.6, created on 2021-11-16 21:54:51
          compiled from "../views/default\index.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:17215895985f9930eabf4f03-59123257%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '345bdb8f839f160ac4fa3a7e53630c8be64410e5' => 
     array (
       0 => '../views/default\\index.tpl',
-      1 => 1635009664,
+      1 => 1637088876,
       2 => 'file',
     ),
   ),
@@ -100,14 +100,33 @@ $_smarty_tpl->tpl_vars['itemChild']->_loop = true;
 					<div class="main__filters-icon">фильтры</div>
 				</div>
 
-				<div class="main__search">
-					<form id="searchForm" action="/php%20shop/www/?controller=index&action=search" method="POST">
-						<input class="main__input" type="text">
-						<button type="submit" class="main__searching" onclick="cleanSearchValue();"><img
-								src="/petunia/www/images/black-search-icon.png" alt=""></button>
-					</form>
+				<img id="searchFiltersImg" src="/petunia/www/images/black-search-icon.png" alt="">
+
+				<div class="main__wrapper">
+					<div class="main__hr"></div>
+					<div class="main__item">сортировка <img src="/petunia/www/images/small-right-icon.png" alt="">
+						<div class="main__sort">
+							<select class="main__select">
+								<option value="main">s</option>
+								<option value="up">m</option>
+								<option value="down">l</option>
+							</select>
+						</div>
+					</div>
+					<div class="main__hr"></div>
+					<div class="main__item">цена <img src="/petunia/www/images/small-right-icon.png" alt=""></div>
+					<div class="main__hr"></div>
+					<div class="main__item">цвет <img src="/petunia/www/images/small-right-icon.png" alt=""></div>
+
+					<div class="main__search">
+						<form id="searchForm" action="/petunia/www/?controller=index&action=search" method="POST">
+							<input class="main__input" type="text" name="search" placeholder="ПОИСК">
+							<button type="submit" class="main__searching"><img src="/petunia/www/images/black-search-icon.png"
+									alt=""></button>
+						</form>
+					</div>
+					<div class="main__sort"></div>
 				</div>
-				<div class="main__sort"></div>
 			</div>
 
 			<?php  $_smarty_tpl->tpl_vars['item'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['item']->_loop = false;
@@ -119,8 +138,8 @@ $_smarty_tpl->tpl_vars['item']->_loop = true;
 			<div class="main__product product">
 				<a href="/petunia/www/?controller=product&id=<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
 /"><img
-						src="/petunia/www/images/products/<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
-.png" alt="" class="product__img"></a>
+						src="/petunia/www/images/products/<?php echo $_smarty_tpl->tpl_vars['item']->value['image'];?>
+" alt="" class="product__img"></a>
 
 				<div class="product__description">
 					<a href="/petunia/www/?controller=product&id=<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
@@ -132,15 +151,28 @@ $_smarty_tpl->tpl_vars['item']->_loop = true;
 					<div class="product__desc"><?php echo $_smarty_tpl->tpl_vars['item']->value['description'];?>
 </div>
 
-					<div class="product__price"><?php echo $_smarty_tpl->tpl_vars['item']->value['price'];?>
- руб.</div>
+					<div class="product__price">
+						<span id="productPrice2_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+"><?php echo $_smarty_tpl->tpl_vars['item']->value['priceM'];?>
+ </span>
+						<span style="display: none;" id="productPrice1_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+"><?php echo $_smarty_tpl->tpl_vars['item']->value['priceS'];?>
+ </span>
+						<span style="display: none;" id="productPrice3_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+"><?php echo $_smarty_tpl->tpl_vars['item']->value['priceL'];?>
+ </span> руб.
+					</div>
 
 					<div class="product__size">
 						размер:
-						<select class="product__select">
-							<option value="s">s</option>
-							<option value="m">m</option>
-							<option value="l">l</option>
+						<select class="product__select" id="productCnt_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+"
+							onchange="changePrice(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+); addToCart(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+); return false;">
+							<option value="1">черенок</option>
+							<option value="2" selected="selected">кустик</option>
+							<option value="3">большой куст</option>
 						</select>
 					</div>
 
@@ -149,7 +181,7 @@ $_smarty_tpl->tpl_vars['item']->_loop = true;
 						href="/petunia/www/?controller=cart&action=removefromcart&id=<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
 "
 						onclick="removeFromCart(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
-); return false;">
+, 2); return false;">
 						<div class="product__button">Удалить</div>
 					</a>
 					<a class="<?php if (in_array($_smarty_tpl->tpl_vars['item']->value['id'],$_smarty_tpl->tpl_vars['cart']->value)){?>none<?php }?>" id="addCart_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
@@ -167,19 +199,20 @@ $_smarty_tpl->tpl_vars['item']->_loop = true;
 					</div>
 
 					<div class="product__sum">
-						<div class="item__plus" id="plus" onclick="countPlus(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
-); conversionPrice(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+						<div class="item__plus" id="plus"
+							onclick="countIndexPlus(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+); indexAddToCart(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
 );">
 							+
 						</div>
 						<input name="itemCnt_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
 " id="itemCnt_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
 " type="number" value="1"
-							oninput="conversionPrice(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
-);" class="item__input" max="999">
+							class="item__input" onchange="indexAddToCart(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+); return false;">
 						<div class="item__minus" id="minus"
-							onclick="countMinus(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
-); conversionPrice(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+							onclick="countIndexMinus(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+); indexAddToCart(<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
 );">
 							-
 						</div>

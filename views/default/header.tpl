@@ -9,6 +9,7 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<link rel="stylesheet" href="{$teplateWebPath}css/style.css">
 	<link rel="icon" href="/petunia/www/images/icon.png">
+	<meta name="interkassa-verification" content="037eec30c94395fd54abd1f466785f1a" />
 </head>
 
 <body onload="conversionPrice(1);">

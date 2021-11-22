@@ -4,11 +4,11 @@
 
 	<div class="product-item__slider">
 		<div class="product-item__wrapper">
-			<img class="product-item__image a a1 on" src="/petunia/www/images/products/{$rsProduct['id']}_1.png" alt="no">
-			<img class="product-item__image b b1" src="/petunia/www/images/products/{$rsProduct['id']}_2.png" alt="no">
-			<img class="product-item__image c c1" src="/petunia/www/images/products/{$rsProduct['id']}_3.png" alt="no">
-			<img class="product-item__image d d1" src="/petunia/www/images/products/{$rsProduct['id']}_4.png" alt="no">
-			<img class="product-item__image e e1" src="/petunia/www/images/products/{$rsProduct['id']}_5.png" alt="no">
+			<img class="product-item__image a a1 on" src="/petunia/www/images/products/{$rsProduct['image1']}" alt="no">
+			<img class="product-item__image b b1" src="/petunia/www/images/products/{$rsProduct['image2']}" alt="no">
+			<img class="product-item__image c c1" src="/petunia/www/images/products/{$rsProduct['image3']}" alt="no">
+			<img class="product-item__image d d1" src="/petunia/www/images/products/{$rsProduct['image4']}" alt="no">
+			<img class="product-item__image e e1" src="/petunia/www/images/products/{$rsProduct['image5']}" alt="no">
 			<div class="product-item__left"><img src="/petunia/www/images/left-icon.png" alt=""></div>
 			<div class="product-item__right"><img src="/petunia/www/images/right-icon.png" alt=""></div>
 			<div class="product-item__dots">
@@ -28,25 +28,39 @@
 		</div>
 
 
-		<div class="product-item__price">{$rsProduct['price']} руб.</div>
+		<div class="product-item__price"><span id="productPrice2_{$rsProduct['id']}">{$rsProduct['priceM']} </span>
+			<span style="display: none;" id="productPrice1_{$rsProduct['id']}">{$rsProduct['priceS']} </span>
+			<span style="display: none;" id="productPrice3_{$rsProduct['id']}">{$rsProduct['priceL']} </span> руб.
+		</div>
 
 		<div class="product-item__size">
 			размер:
-			<select class="product-item__select">
-				<option value="s">s</option>
-				<option value="m">m</option>
-				<option value="l">l</option>
+			<select class="product__select" id="productCnt_{$rsProduct['id']}"
+				onchange="changePrice({$rsProduct['id']}); addToCart({$rsProduct['id']}); return false;">
+				<option value="1">черенок</option>
+				<option value="2" selected="selected">кустик</option>
+				<option value="3">большой куст</option>
 			</select>
 		</div>
 
 		<div class="product-item__count">
 			Количество:
-			<input type="number" value="1">
+			<input name="itemCnt_{$rsProduct['id']}" id="itemCnt_{$rsProduct['id']}" type="number" value="1"
+				class="item__input" onchange="indexAddToCart({$rsProduct['id']}); return false;">
 		</div>
 
-		<a href="" class="product-item__cart">
-			<div class="product-item__button">В корзину</div>
-		</a>
+		<div class="product-item__cart">
+			<a class="{if ! in_array($rsProduct['id'], $cart)}none{/if}" id="removeCart_{$rsProduct['id']}"
+				href="/petunia/www/?controller=cart&action=removefromcart&id={$rsProduct['id']}"
+				onclick="removeFromCart({$rsProduct['id']}, 2); return false;">
+				<div class="product-item__button">Удалить</div>
+			</a>
+			<a class="{if in_array($rsProduct['id'], $cart)}none{/if}" id="addCart_{$rsProduct['id']}"
+				href="/petunia/www/?controller=cart&action=addtocart&id={$rsProduct['id']}" {if $itemInCart} class="none"
+				{/if} onclick="addToCart({$rsProduct['id']}); return false;">
+				<div class="product-item__button">В корзину</div>
+			</a>
+		</div>
 
 		<div class="product-item__love">
 			Сохраните товар в избранном:

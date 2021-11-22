@@ -4,7 +4,7 @@
    */
 
 
-   $dblocation = "5.35.124.247:8306";
+ 	$dblocation = "5.35.124.247:8306";
    $dbname = "petunia";
    $dbuser = "semen";
    $dbpasswd = "268123";

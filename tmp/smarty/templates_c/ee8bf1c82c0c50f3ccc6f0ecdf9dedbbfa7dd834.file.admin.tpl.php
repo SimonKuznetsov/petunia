@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.6, created on 2021-01-30 19:42:00
+<?php /* Smarty version Smarty-3.1.6, created on 2021-11-13 18:54:50
          compiled from "../views/admin\admin.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:6144140175fbbabb64a3fb2-45340413%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'ee8bf1c82c0c50f3ccc6f0ecdf9dedbbfa7dd834' => 
     array (
       0 => '../views/admin\\admin.tpl',
-      1 => 1612024915,
+      1 => 1636818875,
       2 => 'file',
     ),
   ),
@@ -28,33 +28,27 @@ $_valid = $_smarty_tpl->decodeProperties(array (
    <title><?php echo $_smarty_tpl->tpl_vars['pageTitle']->value;?>
 </title>
    <link rel="stylesheet" href="<?php echo $_smarty_tpl->tpl_vars['teplateWebPath']->value;?>
-css/main.css">
+css/admin.css">
    <script src=" https://code.jquery.com/jquery-3.5.1.min.js"></script>
-   <script src="/php%20shop/www/templates/admin/js/admin.js"></script>
+   <script src="/petunia/www/templates/admin/js/admin.js"></script>
 </head>
-<form style="text-align: center; margin-top: 10%;" action="/php%20shop/www/?controller=admin" method="post">
-   <div id="loginBox" class="container">
-      <div class="title">
-         <h2>Панель админа</h2>
+<form action="/petunia/www/?controller=admin" method="post" class="admin__container">
+   <div id="loginBox" class="admin">
+      <div class="admin__title">
+         Панель админа
       </div>
-      <div class="form" id="form">
-         <div class="form-control">
+      <div class="admin__wrapper">	
+         <div class="admin__form">
             <label>Логин</label>
-            <input type="text" id="login" name="login" value="" placeholder="simon">
-            <i class="fas fa-check-circle"></i>
-            <i class="fas fa-exclamation-circle"></i>
-            <small>Error message</small>
+            <input type="text" id="login" name="login">
          </div>
 
-         <div class="form-control">
+         <div class="admin__form">
             <label>Пароль</label>
-            <input type="password" id="password" name="password" value="" placeholder="Password">
-            <i class="fas fa-check-circle"></i>
-            <i class="fas fa-exclamation-circle"></i>
-            <small>Error message</small>
+            <input type="password" id="password" name="password">
          </div>
 
-         <input class="main-button" type="submit" onclick="checkAdminParams(); loginAdmin();" value="Войти">
+         <input class="admin__button" type="submit" onclick="loginAdmin();" value="Войти">
       </div>
    </div>
 </form><?php }} ?>
